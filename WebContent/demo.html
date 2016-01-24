@@ -5,55 +5,115 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>btjs demo</title>
-<link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
 <!-- Optional theme 
 <link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
 -->
+<!-- Extra Icon fonts -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link
+	href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+	rel="stylesheet">
 </head>
 <body class="container">
-  <h1>Components</h1>
-  <div class="row" >
-    <div class="col-md-2">Labels</div>
-    <div class="col-md-2" ><h1><span id = 'label1'></span></h1></div>
-    <div class="col-md-2" ><h2><span id = 'label2'></span></h2></div>
-    <div class="col-md-2" ><h3><span id = 'label3'></span></h3></div>
-    <div class="col-md-2" ><h4><span id = 'label4'></span></h4></div>
-    <div class="col-md-2" ><h5><span id = 'label5'></span></h5></div>
-  </div>
-  <div class="row" >
-    <div class="col-md-2">Badges</div>
-    <div class="col-md-2" ><div id = 'badge1'></div></div>
-    <div class="col-md-2" ><div id = 'badge2'></div></div>
-    <div class="col-md-2" ><div id = 'badge3'></div></div>
-    <div class="col-md-2" ><div id = 'badge4'></div></div>
-    <div class="col-md-2" ><div id = 'badge5'></div></div>
-  </div>  
-  <div class="row" >
-    <div class="col-md-2">Glyphicons</div>
-    <div class="col-md-2" ><div id = 'glyphicon1'></div></div>
-    <div class="col-md-2" ><div id = 'glyphicon2'></div></div>
-    <div class="col-md-2" ><div id = 'glyphicon3'></div></div>
-    <div class="col-md-2" ><div id = 'glyphicon4'></div></div>
-    <div class="col-md-2" ><div id = 'glyphicon5'></div></div>
-  </div>    
-  <div class="row" >
-    <div class="col-md-2">Buttons</div>
-    <div class="col-md-2" ><div id = 'button1'></div></div>
-    <div class="col-md-2" ><div id = 'button2'></div></div>
-    <div class="col-md-2" ><div id = 'button3'></div></div>
-    <div class="col-md-2" ><div id = 'button4'></div></div>
-    <div class="col-md-2" ><div id = 'button5'></div></div>
-  </div>    
-  <br />
-  <div id="div1"></div>
-  <br />
-  <div id="div2" /></div>
-  <br />
-  <div id="div3" /></div>
-  <br />
-  <script src="lib/jquery/jquery-2.2.0.js"></script>
-  <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
-  <script src="src/btjs.js"></script>
+	<h1>Components</h1>
+	<div class="row">
+		<div class="col-md-2">Labels</div>
+		<div class="col-md-2">
+			<h1>
+				<span id='label1'></span>
+			</h1>
+		</div>
+		<div class="col-md-2">
+			<h2>
+				<span id='label2'></span>
+			</h2>
+		</div>
+		<div class="col-md-2">
+			<h3>
+				<span id='label3'></span>
+			</h3>
+		</div>
+		<div class="col-md-2">
+			<h4>
+				<span id='label4'></span>
+			</h4>
+		</div>
+		<div class="col-md-2">
+			<h5>
+				<span id='label5'></span>
+			</h5>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">Badges</div>
+		<div class="col-md-2">
+			<div id='badge1'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='badge2'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='badge3'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='badge4'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='badge5'></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">Glyphicons</div>
+		<div class="col-md-2">
+			<div id='glyphicon1'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='glyphicon2'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='glyphicon3'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='glyphicon4'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='glyphicon5'></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">Buttons</div>
+		<div class="col-md-2">
+			<div id='button1'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='button2'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='button3'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='button4'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='button5'></div>
+		</div>
+	</div>
+	<br />
+	<div id="div1"></div>
+	<br />
+	<div id="div2" /></div>
+	<br />
+	<div id="div3" /></div>
+	<br />
+	<script src="lib/jquery/jquery-2.2.0.js"></script>
+	<script src="lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
+	<script src="src/btjs.js"></script>
 </body>
 <script>
 	//TODO: id inside options?
@@ -65,158 +125,163 @@
 		si no había se guarda en memoria
 	
 	 */
-	 btjs.newLabel({
-		 id : 'label1',
-		 text: 'Basic info label <>',		 
-		 intent: btjs.INTENT.INFO,
-		 tooltip: 'text tooltip on label',
-		 listeners:{
-			 click: function(){alert(' click on label');}
-		 }
-	 });
-	 btjs.newLabel({
-		 id : 'label2',
-		 html: 'label with <i>html</i>',		 
-		 intent: btjs.INTENT.PRIMARY,
-		 tooltip: {
-			 title: 'slow tooltip',
-			 placement : 'left',
-			 animation: true,
-			delay: 500,
-		 },
-		 popover: {
+	btjs.newLabel({
+		id : 'label1',
+		text : 'Basic info label <>',
+		intent : btjs.INTENT.INFO,
+		tooltip : 'text tooltip on label',
+		listeners : {
+			click : function() {
+				alert(' click on label');
+			}
+		}
+	});
+	btjs.newLabel({
+		id : 'label2',
+		html : 'label with <i>html</i>',
+		intent : btjs.INTENT.PRIMARY,
+		tooltip : {
+			title : 'slow tooltip',
+			placement : 'left',
+			animation : true,
+			delay : 500,
+		},
+		popover : {
 			title : 'label popover title',
 			content : 'label popover content',
 			placement : 'bottom'
-		 }
-	 });
-	 btjs.newLabel({
-		 id : 'label3',
-		 text: 'with glyphicon & badge',		 
-		 intent: btjs.INTENT.WARNING,
-		 glyphicon: 'music',
-		 badge: '55'
-	 });	 
-	 btjs.newLabel({
-		 id : 'label4',
-		 text: 'glyphicon & badge & tooltips',		 
-		 intent: btjs.INTENT.PRIMARY,
-		 tooltip: 'label tooltip',
-		 glyphicon: {
-			 glyphicon : 'music',
-			 tooltip: 'glyphicon tooltip'
-		 },
-		 badge: {
-			 text : '55',
-			 tooltip: 'badge tooltip'
-		 },
-	 });	 
-	 
-	 btjs.newBadge({
-		 id : 'badge1',
-		 text: 'Basic info badge',		 
-		 intent: btjs.INTENT.INFO,
-		 tooltip: 'text tooltip on badge',
-		 listeners:{
-			 click: function(){alert('click on badge');}
-		 }
-	 });
-	 btjs.newBadge({
-		 id : 'badge2',
-		 html: 'badge with <i>html</i>',		 
-		 intent: btjs.INTENT.PRIMARY,
-		 tooltip: {
-			 title: 'slow tooltip',
-			 placement : 'left',
-			 animation: true,
-			delay: 500,
-		 },
-		 popover: {
+		}
+	});
+	btjs.newLabel({
+		id : 'label3',
+		text : 'with glyphicon & badge',
+		intent : btjs.INTENT.WARNING,
+		glyphicon : 'music',
+		badge : '55'
+	});
+	btjs.newLabel({
+		id : 'label4',
+		text : 'glyphicon & badge & tooltips',
+		intent : btjs.INTENT.PRIMARY,
+		tooltip : 'label tooltip',
+		glyphicon : {
+			glyphicon : 'music',
+			tooltip : 'glyphicon tooltip'
+		},
+		badge : {
+			text : '55',
+			tooltip : 'badge tooltip'
+		},
+	});
+
+	btjs.newBadge({
+		id : 'badge1',
+		text : 'Basic info badge',
+		intent : btjs.INTENT.INFO,
+		tooltip : 'text tooltip on badge',
+		listeners : {
+			click : function() {
+				alert('click on badge');
+			}
+		}
+	});
+	btjs.newBadge({
+		id : 'badge2',
+		html : 'badge with <i>html</i>',
+		intent : btjs.INTENT.PRIMARY,
+		tooltip : {
+			title : 'slow tooltip',
+			placement : 'left',
+			animation : true,
+			delay : 500,
+		},
+		popover : {
 			title : 'badge popover title',
 			content : 'badge popover content',
 			placement : 'bottom'
-		 }
-	 });	 
-	 btjs.newBadge({
-		 id : 'badge3',
-		 text: 'badge with glyphicon',		 
-		 intent: btjs.INTENT.WARNING,
-		 glyphicon: 'music'
-	 });		 
-	 
-	 btjs.newGlyphicon({
-		 id : 'glyphicon1',
-		 icon: 'music',
-		 tooltip: 'text tooltip on badge',
-		 listeners:{
-			 click: function(){alert('click on badge');}
-		 }
-	 });
-	 btjs.newGlyphicon({
-		 id : 'glyphicon2',
-		 icon: 'heart', 
-		 tooltip: {
-			 title: 'slow tooltip',
-			 placement : 'left',
-			 animation: true,
-			delay: 500,
-		 },
-		 popover: {
+		}
+	});
+	btjs.newBadge({
+		id : 'badge3',
+		text : 'badge with glyphicon',
+		intent : btjs.INTENT.WARNING,
+		glyphicon : 'music'
+	});
+
+	btjs.newGlyphicon({
+		id : 'glyphicon1',
+		icon : 'music',
+		tooltip : 'text tooltip on badge',
+		listeners : {
+			click : function() {
+				alert('click on badge');
+			}
+		}
+	});
+	btjs.newGlyphicon({
+		id : 'glyphicon2',
+		icon : 'heart',
+		tooltip : {
+			title : 'slow tooltip',
+			placement : 'left',
+			animation : true,
+			delay : 500,
+		},
+		popover : {
 			title : 'badge popover title',
 			content : 'badge popover content',
 			placement : 'bottom'
-		 }
-	 });	 
-	 btjs.newGlyphicon({
-		 id : 'glyphicon3',
-		 icon: 'star'	 
-	 });		 	 
-	 
+		}
+	});
+	btjs.newGlyphicon({
+		id : 'glyphicon3',
+		icon : 'star'
+	});
 
-
-	 btjs.newButton({
-		 id : 'button1',
-		 text: 'Basic button info extra-small <>',
-		 size: btjs.SIZE.EXTRA_SMALL,
-		 intent: btjs.INTENT.INFO,
-		 tooltip: 'text tooltip on button',
-		 listeners:{
-			 click: function(){alert('click on button');}
-		 }
-	 });
-	 btjs.newButton({
-		 id : 'button2',
-		 html: 'button with <i>html</i> small',
-		 size: btjs.SIZE.SMALL,
-		 intent: btjs.INTENT.PRIMARY,
-		 tooltip: {
-			 title: 'slow tooltip',
-			 placement : 'left',
-			 animation: true,
-			delay: 500,
-		 },
-		 popover: {
+	btjs.newButton({
+		id : 'button1',
+		text : 'Basic button info extra-small <>',
+		size : btjs.SIZE.EXTRA_SMALL,
+		intent : btjs.INTENT.INFO,
+		tooltip : 'text tooltip on button',
+		listeners : {
+			click : function() {
+				alert('click on button');
+			}
+		}
+	});
+	btjs.newButton({
+		id : 'button2',
+		html : 'button with <i>html</i> small',
+		size : btjs.SIZE.SMALL,
+		intent : btjs.INTENT.PRIMARY,
+		tooltip : {
+			title : 'slow tooltip',
+			placement : 'left',
+			animation : true,
+			delay : 500,
+		},
+		popover : {
 			title : 'button popover title',
 			content : 'button popover content',
 			placement : 'bottom'
-		 }
-	 });
-	 btjs.newButton({
-		 id : 'button3',
-		 text: 'with glyphicon & badge',		 
-		 intent: btjs.INTENT.WARNING,
-		 glyphicon: 'music',
-		 badge: '55'
-	 });
-	 btjs.newButton({
-		 id : 'button4',
-		 text: 'large button',		 
-		 size: btjs.SIZE.LARGE,
-		 intent: btjs.INTENT.WARNING,
-		 glyphicon: 'music',
-		 badge: '55'
-	 });
-
+		}
+	});
+	btjs.newButton({
+		id : 'button3',
+		text : 'with glyphicon & badge',
+		intent : btjs.INTENT.WARNING,
+		glyphicon : 'music',
+		badge : '55'
+	});
+	btjs.newButton({
+		id : 'button4',
+		text : 'large button',
+		size : btjs.SIZE.LARGE,
+		intent : btjs.INTENT.WARNING,
+		glyphicon : 'music',
+		badge : '55'
+	});
 
 	makeDropdown(
 			'#div3',

@@ -315,6 +315,23 @@ var btjs = function() {
 			INFO : 'info',
 			WARNING : 'warning',
 			DANGER : 'danger'
+		},
+		/**
+		 * @memberOf btjs
+		 */
+		VISIBILITY : {
+			SHOW : 'show',
+			HIDDEN : 'hidden',
+			INVISIBLE : 'invisible '
+		},
+		/**
+		 * @memberOf btjs
+		 */
+		ICON_SOURCE : {
+			GLYPHICONS : 'glyphicon',
+			FONT_AWESOME : 'fontAwesome',
+			IONICONS : 'ionicons',
+			MATERIAL: 'material'
 		}
 	}
 }();
