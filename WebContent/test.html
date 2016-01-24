@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>btjs QUnit</title>
+<link rel="stylesheet" href="lib/qunit/qunit-1.20.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="lib/jquery/jquery-2.2.0.js"></script>
+  <script src="lib/qunit/qunit-1.20.0.js"></script>
+  <script src="src/btjs.js"></script>
+</body>
+<script type="text/javascript">
+    QUnit.test("validate.nonEmptyOptions({})", function(assert) {
+    	btjs.validate.nonEmptyOptions({});
+    	assert.ok(true);
+    });
+	QUnit.test("validate.nonEmptyOptions(null)", function(assert) {
+		assert.throws(function() {
+			btjs.validate.nonEmptyOptions(null);
+		}, new Error('Options can not be null or undefined'));
+	});
+	QUnit.test("validate.nonEmptyOptions(undefined)", function(assert) {
+		assert.throws(function() {
+			btjs.validate.nonEmptyOptions(undefined);
+		}, new Error('Options can not be null or undefined'));
+	});
+
+	QUnit.test("validate.nonEmptyProp({prop: 4}, prop)", function(assert) {
+		btjs.validate.nonEmptyProp({prop: 4}, 'prop');
+		assert.ok(true);
+	});
+	QUnit.test("validate.nonEmptyProp({}, prop)", function(assert) {
+		assert.throws(function() {
+			btjs.validate.nonEmptyProp({}, 'prop');
+		}, new Error('options.prop can not be null or undefined'));
+	});	
+	QUnit.test("validate.nonEmptyProp({prop: null}, prop)", function(assert) {
+		assert.throws(function() {
+			btjs.validate.nonEmptyProp({prop:null}, 'prop');
+		}, new Error('options.prop can not be null or undefined'));
+	});	
+	
+	QUnit.test("validate.emptyOrSet({prop: b}, prop, [a,b,c])", function(assert) {
+		btjs.validate.emptyOrSet({prop: 'b'}, 'prop', ['a','b','c']);
+		assert.ok(true);
+	});
+	QUnit.test("validate.emptyOrSet({}, prop, [a,b,c])", function(assert) {
+		btjs.validate.emptyOrSet({}, 'prop', ['a','b','c']);
+		assert.ok(true);
+	});	
+	QUnit.test("validate.emptyOrSet({prop:null}, prop, [a,b,c])", function(assert) {
+		btjs.validate.emptyOrSet({prop:null}, 'prop', ['a','b','c']);
+		assert.ok(true);
+	});		
+	QUnit.test("validate.emptyOrSet({prop:d}, prop, [a,b,c])", function(assert) {
+		assert.throws(function() {
+			btjs.validate.emptyOrSet({prop:'d'}, 'prop', ['a','b','c']);
+		}, new Error('options.prop should be null or undefined or one of a,b,c'));
+	});		
+	QUnit.test("validate.intent({intent:wrong})", function(assert) {
+		assert.throws(function() {
+			btjs.validate.intent({intent:'wrong'});
+		}, new Error('options.intent should be null or undefined or one of primary,success,default,info,warning,danger'));
+	});
+	QUnit.test("validate.intent({intent:info})", function(assert) {
+		btjs.validate.intent({intent:'info'});
+		assert.ok(true);
+	});		
+	QUnit.test("validate.intent({intent:null})", function(assert) {
+		btjs.validate.intent({intent:'info'});
+		assert.ok(true);
+	});	
+	QUnit.test("validate.intent({})", function(assert) {
+		btjs.validate.intent({});
+		assert.ok(true);
+	});
+	
+	QUnit.test("validate.eitherTextOrHtml(null, null)", function(assert) {
+		btjs.validate.eitherTextOrHtml(null, null);
+		assert.ok(true);
+	});
+	QUnit.test("validate.eitherTextOrHtml(text, null)", function(assert) {
+		btjs.validate.eitherTextOrHtml('text', null);
+		assert.ok(true);
+	});	
+	QUnit.test("validate.eitherTextOrHtml(text, undefined)", function(assert) {
+		btjs.validate.eitherTextOrHtml('text', undefined);
+		assert.ok(true);
+	});		
+	QUnit.test("validate.eitherTextOrHtml(text, '  ')", function(assert) {
+		btjs.validate.eitherTextOrHtml('text', '   ');
+		assert.ok(true);
+	});		
+	QUnit.test("validate.eitherTextOrHtml(null, html)", function(assert) {
+		btjs.validate.eitherTextOrHtml(null, 'html');
+		assert.ok(true);
+	});		
+	QUnit.test("validate.eitherTextOrHtml(undefined, html)", function(assert) {
+		btjs.validate.eitherTextOrHtml(undefined, 'html');
+		assert.ok(true);
+	});		
+	QUnit.test("validate.eitherTextOrHtml('  ', html)", function(assert) {
+		btjs.validate.eitherTextOrHtml('   ', 'html');
+		assert.ok(true);
+	});		
+	QUnit.test("validate.eitherTextOrHtml(text, html)", function(assert) {
+		assert.throws(function() {
+			btjs.validate.eitherTextOrHtml('text', 'html');
+		}, new Error('You can not use options.text and options.html at the same time'));
+	});	
+	
+	
+	QUnit.test("idMaker.make(lalala)", function(assert) {
+		assert.equal(btjs.idMaker.make('lalala'), 'lalala');
+	});		
+	QUnit.test("idMaker.make(null)", function(assert) {
+		assert.equal(btjs.idMaker.make(null), 'btjs-00001');
+	});		
+	QUnit.test("idMaker.make('')", function(assert) {
+		assert.equal(btjs.idMaker.make(''), 'btjs-00002');
+	});		
+	QUnit.test("idMaker.make('   ')", function(assert) {
+		assert.equal(btjs.idMaker.make(''), 'btjs-00003');
+	});		
+	QUnit.test("idMaker.make(undefined)", function(assert) {
+		assert.equal(btjs.idMaker.make(undefined), 'btjs-00004');
+	});			
+</script>
+</html>
