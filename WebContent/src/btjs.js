@@ -3,6 +3,28 @@
  * @author Pablo
  */
 var btjs = function() {
+	
+	//TODO: label-as-badge trick to colored bagdes
+	//TODO: context instead of intent
+	//TODO: array to know forbidden/mandatory per component/field
+	/*
+	 * var NEED_LEVEL = [	  	 	
+	 *   ["component", "id", "css", "style", "text", "html", "size", "context"
+	 *   ["button"   , null, "css", "style", "mandatory", "html", "size", "context"
+	 *   ["icon"   , null, "css", "style", "mandatory", "forbidden", "size", "context"
+	 *   
+	 *   
+	 *   ]
+	 * 
+	 * ]
+	 * 
+	 * and init to transfor into a nice object 
+	 * */
+	//TODO: array for property type, based on https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+	//TODO: array for property values set
+	//TODO: automatic verification of need status, type, value set
+	//TODO: automatic conversion of properties to classes when possible
+	
 	var isBlankString = function(str){
 		return typeof str === 'undefined' || str === null || (typeof str === 'string' && $.trim(str) === '');
 	}
@@ -167,8 +189,7 @@ var btjs = function() {
 			}
 		});
 	}	
-	var newGlyphicon = function(options){
-		//TODO: allow using font awesome, material, octicons, glyphicons, etc
+	var newIcon = function(options){
 		return newElement(options, {
 			validations: function(){
 				validate.empty(options, 'text');
@@ -176,8 +197,23 @@ var btjs = function() {
 				validate.empty(options, 'badge');
 			},
 			createCode: function (id, options){
-				return 	'<span id = "' + id +'" class="glyphicon glyphicon-'
-				+ options.icon + '" aria-hidden="true" ></span> ';
+				if(options.iconSource == null){
+					options.iconSource = btjs.ICON_SOURCE.GLYPHICON;
+				}
+				switch(options.iconSource){
+				case btjs.ICON_SOURCE.GLYPHICON: 
+					return 	'<span id = "' + id +'" class="glyphicon glyphicon-'
+					+ options.iconName + '" aria-hidden="true" ></span>';
+				case btjs.ICON_SOURCE.FONT_AWESOME: 
+					return 	'<span><i id="' + id +'" class="fa fa-' 
+					+ options.iconName + '" aria-hidden="true" ></i></span>';
+				case btjs.ICON_SOURCE.IONICONS:  
+					return 	'<span><i id="' + id +'" class="ionicons ion-' 
+					+ options.iconName + '" aria-hidden="true" ></i></span>';
+				case btjs.ICON_SOURCE.MATERIAL:  
+					return 	'<span><i id="' + id +'" class="material-icons" aria-hidden="true">' 
+					+ options.iconName + '</i></span>';
+				}
 			}
 		});
 	}
@@ -195,16 +231,32 @@ var btjs = function() {
 		
 		var $newElement = $(newElementCode);
 		
+		function parseIconName(iconString){
+			var colonIndex = iconString.indexOf(':');
+			if(colonIndex == -1){
+				return iconString;
+			}
+			return iconString.substr(colonIndex + 1);
+		}
+		function parseIconSource(iconString){
+			var colonIndex = iconString.indexOf(':');
+			if(colonIndex == -1){
+				return btjs.ICON_SOURCE.GLYPHICON;
+			}
+			return iconString.substr(0, colonIndex);
+		}
 		
-		if(!isBlankString(options.glyphicon) || isNonNullObject(options.glyphicon)){
-			var glyphiconOptions = typeof options.glyphicon == 'string' ? {
-				id : id + '-glyphicon',
-				icon : options.glyphicon
-			}:options.glyphicon; //TODO: manually copy properties and change ID
+		
+		if(!isBlankString(options.icon) || isNonNullObject(options.icon)){
+			var iconOptions = typeof options.icon == 'string' ? {
+				id : id + '-icon',
+				iconSource : parseIconSource(options.icon),
+				iconName : parseIconName(options.icon),
+			}:options.icon; //TODO: manually copy properties and change ID
 			
-			$glyphicon = newGlyphicon(glyphiconOptions);
+			$icon = newIcon(iconOptions);
 			$newElement.prepend('&nbsp;');
-			$newElement.prepend($glyphicon);
+			$newElement.prepend($icon);
 		}
 		
 		if(!isBlankString(options.badge)|| isNonNullObject(options.badge)){
@@ -290,7 +342,7 @@ var btjs = function() {
 		/**
 		 * @memberOf btjs
 		 */
-		newGlyphicon : newGlyphicon,
+		newIcon : newIcon,
 
 		/**
 		 * @memberOf btjs

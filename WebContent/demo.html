@@ -69,21 +69,22 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-2">Glyphicons</div>
+		<div class="col-md-2">Icons</div>
 		<div class="col-md-2">
-			<div id='glyphicon1'></div>
+			<div id='icon1'></div>
 		</div>
 		<div class="col-md-2">
-			<div id='glyphicon2'></div>
+			<div id='icon2'></div>
 		</div>
-		<div class="col-md-2">
-			<div id='glyphicon3'></div>
-		</div>
-		<div class="col-md-2">
-			<div id='glyphicon4'></div>
-		</div>
-		<div class="col-md-2">
-			<div id='glyphicon5'></div>
+		<div class="col-md-6">
+			glyficon star
+			<div id='icon3'></div>
+			font awesome star
+			<div id='icon4'></div>
+			ionicons star
+			<div id='icon5'></div>
+			material star
+			<div id='icon6'></div>
 		</div>
 	</div>
 	<div class="row">
@@ -154,19 +155,19 @@
 	});
 	btjs.newLabel({
 		id : 'label3',
-		text : 'with glyphicon & badge',
+		text : 'with icon & badge',
 		intent : btjs.INTENT.WARNING,
-		glyphicon : 'music',
+		icon : 'music',
 		badge : '55'
 	});
 	btjs.newLabel({
 		id : 'label4',
-		text : 'glyphicon & badge & tooltips',
+		text : 'icon & badge & tooltips',
 		intent : btjs.INTENT.PRIMARY,
 		tooltip : 'label tooltip',
-		glyphicon : {
-			glyphicon : 'music',
-			tooltip : 'glyphicon tooltip'
+		icon : {
+			icon : 'music',
+			tooltip : 'icon tooltip'
 		},
 		badge : {
 			text : '55',
@@ -203,14 +204,14 @@
 	});
 	btjs.newBadge({
 		id : 'badge3',
-		text : 'badge with glyphicon',
+		text : 'badge with icon',
 		intent : btjs.INTENT.WARNING,
-		glyphicon : 'music'
+		icon : 'fontAwesome:futbol-o'
 	});
 
-	btjs.newGlyphicon({
-		id : 'glyphicon1',
-		icon : 'music',
+	btjs.newIcon({
+		id : 'icon1',
+		iconName : 'music',
 		tooltip : 'text tooltip on badge',
 		listeners : {
 			click : function() {
@@ -218,9 +219,9 @@
 			}
 		}
 	});
-	btjs.newGlyphicon({
-		id : 'glyphicon2',
-		icon : 'heart',
+	btjs.newIcon({
+		id : 'icon2',
+		iconName : 'heart',
 		tooltip : {
 			title : 'slow tooltip',
 			placement : 'left',
@@ -233,9 +234,24 @@
 			placement : 'bottom'
 		}
 	});
-	btjs.newGlyphicon({
-		id : 'glyphicon3',
-		icon : 'star'
+	btjs.newIcon({
+		id : 'icon3',
+		iconName : 'star'
+	});
+	btjs.newIcon({
+		id : 'icon4',
+		iconSource : btjs.ICON_SOURCE.FONT_AWESOME,
+		iconName : 'star'
+	});
+	btjs.newIcon({
+		id : 'icon5',
+		iconSource : btjs.ICON_SOURCE.IONICONS,
+		iconName : 'star'
+	});
+	btjs.newIcon({
+		id : 'icon6',
+		iconSource : btjs.ICON_SOURCE.MATERIAL,
+		iconName : 'star'
 	});
 
 	btjs.newButton({
@@ -269,9 +285,9 @@
 	});
 	btjs.newButton({
 		id : 'button3',
-		text : 'with glyphicon & badge',
+		text : 'with icon & badge',
 		intent : btjs.INTENT.WARNING,
-		glyphicon : 'music',
+		icon : 'music',
 		badge : '55'
 	});
 	btjs.newButton({
@@ -279,7 +295,7 @@
 		text : 'large button',
 		size : btjs.SIZE.LARGE,
 		intent : btjs.INTENT.WARNING,
-		glyphicon : 'music',
+		icon : 'music',
 		badge : '55'
 	});
 
@@ -290,7 +306,7 @@
 				//size: 'extra-small',
 				blockLevel : false,
 				intent : 'warning',
-				glyphicon : 'search',
+				icon : 'search',
 				badge : '44',
 				/* is not working
 				tooltip: {
@@ -344,7 +360,7 @@
 							type : 'link',
 							text : 'Copy',
 							id : 'copy',
-							glyphicon : 'copy'
+							icon : 'copy'
 						}, {
 							type : 'divider'
 						}, {
@@ -370,7 +386,7 @@
 		var dropClass = options.dropup ? 'dropup' : 'dropdown';
 		var blockLevel = options.blockLevel ? 'btn-block' : '';
 		var enabled = options.enabled ? '' : 'disabled="disabled"';
-		var glyphiconTemplate = typeof options.glyphicon === 'string' ? '<span class="glyphicon glyphicon-' + options.glyphicon + '" aria-hidden="true"></span> '
+		var iconTemplate = typeof options.icon === 'string' ? '<span class="icon icon-' + options.icon + '" aria-hidden="true"></span> '
 				: '';
 		var badgeTemplate = typeof options.badge !== 'undefined' ? ' <span class="badge">'
 				+ options.badge + '</span>'
@@ -401,7 +417,7 @@
 				' ' + size + 
 				' ' +  blockLevel + ' dropdown-toggle" type="button"' 
 				+ enabled + 'id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
-				+ glyphiconTemplate
+				+ iconTemplate
 				+ options.text
 				+ badgeTemplate
 				+ '    <span class="caret"></span>'
@@ -431,14 +447,14 @@
 			default:
 				var disabled = item.enabled === false ? 'class= "disabled"'
 						: '';
-				var glyphiconTemplate = typeof item.glyphicon === 'string' ? '<span class="glyphicon glyphicon-' + item.glyphicon + '" aria-hidden="true"></span> '
+				var iconTemplate = typeof item.icon === 'string' ? '<span class="icon icon-' + item.icon + '" aria-hidden="true"></span> '
 						: '';
 				var badgeTemplate = typeof item.badge !== 'undefined' ? ' <span class="badge">'
 						+ item.badge + '</span>'
 						: '';
 
 				itemTemplate = '<li id="" ' + disabled + '><a href="#">'
-						+ glyphiconTemplate + item.text + badgeTemplate
+						+ iconTemplate + item.text + badgeTemplate
 						+ '</a></li>';
 				break;
 			}
