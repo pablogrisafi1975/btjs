@@ -4,6 +4,103 @@
  */
 var btjs = function() {
 	
+	var NEED_LEVEL = {
+		icon :{
+			id: 'optional',
+			cssClass: 'optional',
+			cssStyle: 'optional',
+			size: 'forbidden',
+			iconSource: 'optional',
+			iconName: 'mandatory',
+			icon: 'forbidden',
+			badge: 'forbidden',
+			blockLevel: 'forbidden',
+			tooltip: 'optional',
+			popover: 'optional',
+			text: 'forbidden',
+			html: 'forbidden',
+			intent: 'forbidden',
+			size: 'forbidden',
+			listeners: 'optional',
+			items: 'forbidden'
+		},
+		badge :{
+			id: 'optional',
+			cssClass: 'optional',
+			cssStyle: 'optional',
+			size: 'forbidden',
+			iconSource: 'forbidden',
+			iconName: 'forbidden',
+			icon: 'optional',
+			badge: 'forbidden',
+			blockLevel: 'forbidden',			
+			tooltip: 'optional',
+			popover: 'optional',
+			text: 'optional',
+			html: 'optional',
+			intent: 'forbidden',
+			listeners: 'optional',
+			items: 'forbidden'
+		},
+		label :{
+			id: 'optional',
+			cssClass: 'optional',
+			cssStyle: 'optional',
+			size: 'optional',
+			iconSource: 'forbidden',
+			iconName: 'forbidden',
+			icon: 'optional',
+			badge: 'optional',
+			blockLevel: 'optional',			
+			tooltip: 'optional',
+			popover: 'optional',
+			text: 'optional',
+			html: 'optional',
+			intent: 'optional',
+			listeners: 'optional',
+			items: 'forbidden'
+		},
+		button :{
+			id: 'optional',
+			cssClass: 'optional',
+			cssStyle: 'optional',
+			size: 'optional',
+			iconSource: 'forbidden',
+			iconName: 'forbidden',
+			icon: 'optional',
+			badge: 'optional',
+			blockLevel: 'optional',			
+			tooltip: 'optional',
+			popover: 'optional',
+			text: 'optional',
+			html: 'optional',
+			intent: 'optional',
+			listeners: 'optional',
+			items: 'forbidden'
+		}
+		
+			
+	}
+	
+	var VALID_TYPES = {
+		id: ['string'],
+		cssClass: ['string'],
+		cssStyle: ['string'],
+		size: ['string'],
+		iconSource: ['string'],
+		iconName: ['string'],
+		icon: ['string', 'object'],
+		badge: ['string', 'object', 'boolean', 'number'],
+		blockLevel: ['boolean'],
+		tooltip: ['string', 'object'],
+		popover: ['string', 'object'],
+		text: ['string', 'object', 'boolean', 'number'],
+		html: ['string'],
+		intent: ['string'],
+		listeners: ['object'],
+		items: ['array']
+	}
+	
 	//TODO: label-as-badge trick to colored bagdes
 	//TODO: context instead of intent
 	//TODO: array to know forbidden/mandatory per component/field
@@ -25,6 +122,11 @@ var btjs = function() {
 	//TODO: automatic verification of need status, type, value set
 	//TODO: automatic conversion of properties to classes when possible
 	
+	var toType = function(obj) {
+		/* from https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
+		  return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+	};
+	
 	var isBlankString = function(str){
 		return typeof str === 'undefined' || str === null || (typeof str === 'string' && $.trim(str) === '');
 	}
@@ -33,11 +135,16 @@ var btjs = function() {
 	}
 	
 	var validate = {			
-		nonEmptyOptions : function(obj ){
-			if(typeof obj === 'undefined' || obj === null){
-				throw new Error('Options can not be null or undefined');
+		nonEmptyOptions : function(component, options ){
+			if(typeof options === 'undefined' || options === null){
+				throw new Error('Error trying to create ' + component + '. Options can not be null or undefined');
 			}
 		},
+		eitherTextOrHtml: function(component, options){
+			if(!isBlankString(options.text) && !isBlankString(options.html)){
+				throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. You can not use options.text and options.html at the same time');
+			}
+		},		
 		nonEmptyProp : function(obj, name){
 			if(typeof obj[name] === 'undefined' || obj[name] === null){
 				throw new Error('options.' + name + ' can not be null or undefined');
@@ -64,11 +171,6 @@ var btjs = function() {
 		},
 		intent: function(options){			
 			this.emptyOrSet(options, 'intent', this.makeSet(btjs.INTENT));
-		},
-		eitherTextOrHtml: function(text, html){
-			if(!isBlankString(text) && !isBlankString(html)){
-				throw new Error('You can not use options.text and options.html at the same time');
-			}
 		},
 		empty: function(obj, field){
 			if(!isBlankString(obj[field])){
@@ -137,6 +239,7 @@ var btjs = function() {
 	
 	var newLabel = function(options){
 		return newElement(options, {
+			component: 'label',
 			validations: function(){
 				validate.intent(options);
 			},
@@ -151,6 +254,7 @@ var btjs = function() {
 	}
 	var newBadge = function(options){
 		return newElement(options, {
+			component: 'badge',
 			validations: function(){
 				validate.intent(options);
 			},
@@ -166,6 +270,7 @@ var btjs = function() {
 	
 	var newButton = function(options){
 		return newElement(options, {
+			component: 'button',
 			validations: function(){
 				validate.intent(options);
 				validate.emptyOrSet(options, 'size', [btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL]);
@@ -191,6 +296,7 @@ var btjs = function() {
 	}	
 	var newIcon = function(options){
 		return newElement(options, {
+			component: 'icon',
 			validations: function(){
 				validate.empty(options, 'text');
 				validate.empty(options, 'html');
@@ -218,16 +324,18 @@ var btjs = function() {
 		});
 	}
 	
-	var newElement = function(options, customProcess){
-		var id = idMaker.make(options.id);
-		validate.nonEmptyOptions(options);
-		validate.eitherTextOrHtml(options.text, options.html);
+	var newElement = function(rawOptions, customProcess){
+		automaticValidations(rawOptions, customProcess.component);
+		
+		var id = idMaker.make(rawOptions.id);
+		
+		
 		
 		if(typeof customProcess.validations == 'function'){
-			customProcess.validations(options);
+			customProcess.validations(rawOptions);
 		}
 		
-		var newElementCode = customProcess.createCode(id, options);
+		var newElementCode = customProcess.createCode(id, rawOptions);
 		
 		var $newElement = $(newElementCode);
 		
@@ -247,23 +355,23 @@ var btjs = function() {
 		}
 		
 		
-		if(!isBlankString(options.icon) || isNonNullObject(options.icon)){
-			var iconOptions = typeof options.icon == 'string' ? {
+		if(!isBlankString(rawOptions.icon) || isNonNullObject(rawOptions.icon)){
+			var iconOptions = typeof rawOptions.icon == 'string' ? {
 				id : id + '-icon',
-				iconSource : parseIconSource(options.icon),
-				iconName : parseIconName(options.icon),
-			}:options.icon; //TODO: manually copy properties and change ID
+				iconSource : parseIconSource(rawOptions.icon),
+				iconName : parseIconName(rawOptions.icon),
+			}:rawOptions.icon; //TODO: manually copy properties and change ID
 			
 			$icon = newIcon(iconOptions);
 			$newElement.prepend('&nbsp;');
 			$newElement.prepend($icon);
 		}
 		
-		if(!isBlankString(options.badge)|| isNonNullObject(options.badge)){
-			var badgeOptions = typeof options.badge == 'string' ? {
+		if(!isBlankString(rawOptions.badge)|| isNonNullObject(rawOptions.badge)){
+			var badgeOptions = typeof rawOptions.badge == 'string' ? {
 				id : id + '-badge',
-				text : options.badge
-			}:options.badge; //TODO: manually copy properties and change ID
+				text : rawOptions.badge
+			}:rawOptions.badge; //TODO: manually copy properties and change ID
 			
 			$badge = newBadge(badgeOptions);
 			$newElement.append('&nbsp;');
@@ -271,32 +379,32 @@ var btjs = function() {
 		}
 		
 		if(typeof customProcess.addChildren === 'function'){
-			customProcess.addChildren($newElement, id, options);
+			customProcess.addChildren($newElement, id, rawOptions);
 		}
 		
-		if(typeof options.tooltip === 'string'){
+		if(typeof rawOptions.tooltip === 'string'){
 			$newElement.tooltip({  
-			    title: options.tooltip
+			    title: rawOptions.tooltip
 			});
-		}else if(typeof options.tooltip === 'object' && options.tooltip !== null){
+		}else if(typeof rawOptions.tooltip === 'object' && rawOptions.tooltip !== null){
 			$newElement.tooltip(  
-			    options.tooltip
+			    rawOptions.tooltip
 			);
 		}		
 		
-		if(typeof options.popover === 'object' && options.popover !== null){
+		if(typeof rawOptions.popover === 'object' && rawOptions.popover !== null){
 			$newElement.popover(  
-			    options.popover
+			    rawOptions.popover
 			);
 		}
 		
-		if (typeof options.listeners === 'object' && options.listeners !== null) {
-			for ( var listener in options.listeners) {
-				$newElement.on(listener, options.listeners[listener]);
+		if (typeof rawOptions.listeners === 'object' && rawOptions.listeners !== null) {
+			for ( var listener in rawOptions.listeners) {
+				$newElement.on(listener, rawOptions.listeners[listener]);
 			}
 		}		
 		
-		if(options.id === id){
+		if(rawOptions.id === id){
 			var $oldElements = $('#' + id);
 			
 			if($oldElements.length > 1){
@@ -311,9 +419,60 @@ var btjs = function() {
 		return $newElement;
 	}
 	
+	var automaticValidations = function(rawOptions, component){
+		validate.nonEmptyOptions(component, rawOptions);
+		validateNeed(rawOptions, component);
+		validateTypes(rawOptions, component);
+		validateStringSets(rawOptions, component);
+		validate.eitherTextOrHtml(component, rawOptions);
+	}
+	
+	var validateNeed = function(rawOptions, component){
+		var needLevelPerProp = NEED_LEVEL[component];
+		for(var prop in needLevelPerProp){
+			if(needLevelPerProp.hasOwnProperty(prop)){
+				var needLevel = needLevelPerProp[prop];
+				var actualValue = rawOptions[prop];
+				if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
+					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " = " + actualValue + ' and should be null or undefined');
+				}
+				if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
+					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + ' is null or undefined and should have an actual value');
+				}
+			}
+		}
+	}
+	var validateTypes = function(rawOptions, component){
+		var needLevelPerProp = NEED_LEVEL[component];
+		for(var prop in VALID_TYPES){
+			if(VALID_TYPES.hasOwnProperty(prop)){
+				var validTypes = VALID_TYPES[prop];
+				var actualType = toType(rawOptions[prop]);
+				if(actualType !== 'undefined' && actualType !== 'null' && validTypes.indexOf(actualType) == -1){
+					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " has type " + actualType + ' and should be one of ' + validTypes);
+				}
+			}
+		}
+	}
+	var validateStringSets = function(rawOptions, component){
+		var needLevelPerProp = NEED_LEVEL[component];
+		for(var prop in needLevelPerProp){
+			if(needLevelPerProp.hasOwnProperty(prop)){
+				var needLevel = needLevelPerProp[prop];
+				var actualValue = rawOptions[prop];
+				if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
+					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. Property options.' + prop + " = " + actualValue, ' and should be null or undefined');
+				}
+				if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
+					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. Property options.' + prop + ' is null or undefined and should have an actual value');
+				}
+			}
+		}
+	}
+	
 
 		//TODO:
-		// test: mantener las clases originaless
+		// test: mantener las clases originales
 		// test: escapar texto, permitir html y verificar que no vengan juntos
 		// test: retener id;
 		// test: devolver el objeto creado (jquery wrapped)
