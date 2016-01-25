@@ -232,18 +232,18 @@ var btjs = function() {
 		var $newElement = $(newElementCode);
 		
 		function parseIconName(iconString){
-			var colonIndex = iconString.indexOf(':');
-			if(colonIndex == -1){
+			var slashIndex = iconString.indexOf('/');
+			if(slashIndex == -1){
 				return iconString;
 			}
-			return iconString.substr(colonIndex + 1);
+			return iconString.substr(slashIndex + 1);
 		}
 		function parseIconSource(iconString){
-			var colonIndex = iconString.indexOf(':');
-			if(colonIndex == -1){
+			var slashIndex = iconString.indexOf(':');
+			if(slashIndex == -1){
 				return btjs.ICON_SOURCE.GLYPHICON;
 			}
-			return iconString.substr(0, colonIndex);
+			return iconString.substr(0, slashIndex);
 		}
 		
 		
