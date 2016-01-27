@@ -22,6 +22,7 @@ var btjs = function() {
 			intent: 'forbidden',
 			size: 'forbidden',
 			listeners: 'optional',
+			visibility: 'optional',
 			items: 'forbidden'
 		},
 		badge :{
@@ -40,6 +41,7 @@ var btjs = function() {
 			html: 'optional',
 			intent: 'forbidden',
 			listeners: 'optional',
+			visibility: 'optional',
 			items: 'forbidden'
 		},
 		label :{
@@ -58,6 +60,7 @@ var btjs = function() {
 			html: 'optional',
 			intent: 'optional',
 			listeners: 'optional',
+			visibility: 'optional',
 			items: 'forbidden'
 		},
 		button :{
@@ -76,6 +79,7 @@ var btjs = function() {
 			html: 'optional',
 			intent: 'optional',
 			listeners: 'optional',
+			visibility: 'optional',
 			items: 'forbidden'
 		}
 		
@@ -98,8 +102,33 @@ var btjs = function() {
 		html: ['string'],
 		intent: ['string'],
 		listeners: ['object'],
+		visibility: ['string'],
 		items: ['array']
 	}
+	
+	var stringSet = function(component, field){
+		switch(field){
+		case 'size': 
+			if(component === 'button' || component === 'label'){
+				return [btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL ];
+			}else{
+				return [btjs.SIZE.LARGE, btjs.SIZE.SMALL ];
+			}
+		case 'visibility':
+			return [btjs.VISIBILITY.SHOW, btjs.VISIBILITY.HIDDEN, btjs.VISIBILITY.INVISIBLE]
+		
+		case 'iconSource' :
+			return [btjs.ICON_SOURCE.GLYPHICONS, btjs.ICON_SOURCE.FONT_AWESOME, btjs.ICON_SOURCE.IONICONS, btjs.ICON_SOURCE.MATERIAL]
+		case 'intent' :
+			if(component === 'button'){
+				return [btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS, btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING, btjs.INTENT.DANGER, btjs.INTENT.LINK];
+			}
+			return [btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS, btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING, btjs.INTENT.DANGER];
+		}
+			
+	}
+	
+	
 	
 	//TODO: label-as-badge trick to colored bagdes
 	//TODO: context instead of intent
@@ -169,9 +198,7 @@ var btjs = function() {
 			}
 			return props;
 		},
-		intent: function(options){			
-			this.emptyOrSet(options, 'intent', this.makeSet(btjs.INTENT));
-		},
+		
 		empty: function(obj, field){
 			if(!isBlankString(obj[field])){
 				throw new Error('You can not use options.' + field);
@@ -241,7 +268,7 @@ var btjs = function() {
 		return newElement(options, {
 			component: 'label',
 			validations: function(){
-				validate.intent(options);
+				
 			},
 			createCode: function (id, options){
 				var intentClass = makeIntentClass('label', options.intent);
@@ -256,7 +283,6 @@ var btjs = function() {
 		return newElement(options, {
 			component: 'badge',
 			validations: function(){
-				validate.intent(options);
 			},
 			createCode: function (id, options){
 				//TODO: hack to create color badges
@@ -272,8 +298,6 @@ var btjs = function() {
 		return newElement(options, {
 			component: 'button',
 			validations: function(){
-				validate.intent(options);
-				validate.emptyOrSet(options, 'size', [btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL]);
 			},
 			createCode: function (id, options){
 				var intentClass = makeIntentClass('btn', options.intent);
@@ -328,8 +352,6 @@ var btjs = function() {
 		automaticValidations(rawOptions, customProcess.component);
 		
 		var id = idMaker.make(rawOptions.id);
-		
-		
 		
 		if(typeof customProcess.validations == 'function'){
 			customProcess.validations(rawOptions);
@@ -455,16 +477,14 @@ var btjs = function() {
 		}
 	}
 	var validateStringSets = function(rawOptions, component){
-		var needLevelPerProp = NEED_LEVEL[component];
-		for(var prop in needLevelPerProp){
-			if(needLevelPerProp.hasOwnProperty(prop)){
-				var needLevel = needLevelPerProp[prop];
+		for(var prop in rawOptions){
+			if(rawOptions.hasOwnProperty(prop)){
 				var actualValue = rawOptions[prop];
-				if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
-					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. Property options.' + prop + " = " + actualValue, ' and should be null or undefined');
-				}
-				if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
-					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. Property options.' + prop + ' is null or undefined and should have an actual value');
+				if(toType(actualValue) === 'string'){
+					var validStrings = stringSet(component, prop);
+					if(toType(validStrings) === 'array' && validStrings.indexOf(actualValue) === -1){
+						throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " = " + actualValue + ' and should be null or undefined or one of ' + validStrings);	
+					}
 				}
 			}
 		}
@@ -525,7 +545,8 @@ var btjs = function() {
 			DEFAULT: 'default',
 			INFO : 'info',
 			WARNING : 'warning',
-			DANGER : 'danger'
+			DANGER : 'danger',
+			LINK: 'link'
 		},
 		/**
 		 * @memberOf btjs
