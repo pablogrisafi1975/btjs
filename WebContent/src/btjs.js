@@ -3,435 +3,498 @@
  * @author Pablo
  */
 var btjs = function() {
-	
+
 	var NEED_LEVEL = {
-		icon :{
-			id: 'optional',
-			cssClass: 'optional',
-			cssStyle: 'optional',
-			size: 'forbidden',
-			iconSource: 'optional',
-			iconName: 'mandatory',
-			icon: 'forbidden',
-			badge: 'forbidden',
-			blockLevel: 'forbidden',
-			tooltip: 'optional',
-			popover: 'optional',
-			text: 'forbidden',
-			html: 'forbidden',
-			intent: 'forbidden',
-			size: 'forbidden',
-			listeners: 'optional',
-			visibility: 'optional',
-			items: 'forbidden'
+		icon : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'forbidden',
+			iconSource : 'optional',
+			iconName : 'mandatory',
+			icon : 'forbidden',
+			badge : 'forbidden',
+			blockLevel : 'forbidden',
+			tooltip : 'optional',
+			popover : 'optional',
+			text : 'forbidden',
+			html : 'forbidden',
+			intent : 'forbidden',
+			size : 'forbidden',
+			listeners : 'optional',
+			visibility : 'optional',
+			items : 'forbidden'
 		},
-		badge :{
-			id: 'optional',
-			cssClass: 'optional',
-			cssStyle: 'optional',
-			size: 'forbidden',
-			iconSource: 'forbidden',
-			iconName: 'forbidden',
-			icon: 'optional',
-			badge: 'forbidden',
-			blockLevel: 'forbidden',			
-			tooltip: 'optional',
-			popover: 'optional',
-			text: 'optional',
-			html: 'optional',
-			intent: 'forbidden',
-			listeners: 'optional',
-			visibility: 'optional',
-			items: 'forbidden'
+		badge : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'forbidden',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'forbidden',
+			blockLevel : 'forbidden',
+			tooltip : 'optional',
+			popover : 'optional',
+			text : 'optional',
+			html : 'optional',
+			intent : 'forbidden',
+			listeners : 'optional',
+			visibility : 'optional',
+			items : 'forbidden'
 		},
-		label :{
-			id: 'optional',
-			cssClass: 'optional',
-			cssStyle: 'optional',
-			size: 'optional',
-			iconSource: 'forbidden',
-			iconName: 'forbidden',
-			icon: 'optional',
-			badge: 'optional',
-			blockLevel: 'optional',			
-			tooltip: 'optional',
-			popover: 'optional',
-			text: 'optional',
-			html: 'optional',
-			intent: 'optional',
-			listeners: 'optional',
-			visibility: 'optional',
-			items: 'forbidden'
+		label : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'optional',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'optional',
+			blockLevel : 'optional',
+			tooltip : 'optional',
+			popover : 'optional',
+			text : 'optional',
+			html : 'optional',
+			intent : 'optional',
+			listeners : 'optional',
+			visibility : 'optional',
+			items : 'forbidden'
 		},
-		button :{
-			id: 'optional',
-			cssClass: 'optional',
-			cssStyle: 'optional',
-			size: 'optional',
-			iconSource: 'forbidden',
-			iconName: 'forbidden',
-			icon: 'optional',
-			badge: 'optional',
-			blockLevel: 'optional',			
-			tooltip: 'optional',
-			popover: 'optional',
-			text: 'optional',
-			html: 'optional',
-			intent: 'optional',
-			listeners: 'optional',
-			visibility: 'optional',
-			items: 'forbidden'
+		button : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'optional',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'optional',
+			blockLevel : 'optional',
+			tooltip : 'optional',
+			popover : 'optional',
+			text : 'optional',
+			html : 'optional',
+			intent : 'optional',
+			listeners : 'optional',
+			visibility : 'optional',
+			items : 'forbidden'
 		}
-		
-			
+
 	}
-	
+
 	var VALID_TYPES = {
-		id: ['string'],
-		cssClass: ['string'],
-		cssStyle: ['string'],
-		size: ['string'],
-		iconSource: ['string'],
-		iconName: ['string'],
-		icon: ['string', 'object'],
-		badge: ['string', 'object', 'boolean', 'number'],
-		blockLevel: ['boolean'],
-		tooltip: ['string', 'object'],
-		popover: ['string', 'object'],
-		text: ['string', 'object', 'boolean', 'number'],
-		html: ['string'],
-		intent: ['string'],
-		listeners: ['object'],
-		visibility: ['string'],
-		items: ['array']
+		id : [ 'string' ],
+		cssClass : [ 'string' ],
+		cssStyle : [ 'string' ],
+		size : [ 'string' ],
+		iconSource : [ 'string' ],
+		iconName : [ 'string' ],
+		icon : [ 'string', 'object' ],
+		badge : [ 'string', 'object', 'boolean', 'number' ],
+		blockLevel : [ 'boolean' ],
+		tooltip : [ 'string', 'object' ],
+		popover : [ 'string', 'object' ],
+		text : [ 'string', 'object', 'boolean', 'number' ],
+		html : [ 'string' ],
+		intent : [ 'string' ],
+		listeners : [ 'object' ],
+		visibility : [ 'string' ],
+		items : [ 'array' ]
 	}
-	
-	var stringSet = function(component, field){
-		switch(field){
-		case 'size': 
-			if(component === 'button' || component === 'label'){
-				return [btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL ];
-			}else{
-				return [btjs.SIZE.LARGE, btjs.SIZE.SMALL ];
+
+	var stringSet = function(component, field) {
+		switch (field) {
+		case 'size':
+			if (component === 'button' || component === 'label') {
+				return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL,
+						btjs.SIZE.EXTRA_SMALL ];
+			} else {
+				return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL ];
 			}
 		case 'visibility':
-			return [btjs.VISIBILITY.SHOW, btjs.VISIBILITY.HIDDEN, btjs.VISIBILITY.INVISIBLE]
-		
-		case 'iconSource' :
-			return [btjs.ICON_SOURCE.GLYPHICONS, btjs.ICON_SOURCE.FONT_AWESOME, btjs.ICON_SOURCE.IONICONS, btjs.ICON_SOURCE.MATERIAL]
-		case 'intent' :
-			if(component === 'button'){
-				return [btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS, btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING, btjs.INTENT.DANGER, btjs.INTENT.LINK];
+			return [ btjs.VISIBILITY.SHOW, btjs.VISIBILITY.HIDDEN,
+					btjs.VISIBILITY.INVISIBLE ]
+
+		case 'iconSource':
+			return [ btjs.ICON_SOURCE.GLYPHICONS,
+					btjs.ICON_SOURCE.FONT_AWESOME, btjs.ICON_SOURCE.IONICONS,
+					btjs.ICON_SOURCE.MATERIAL ]
+		case 'intent':
+			if (component === 'button') {
+				return [ btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS,
+						btjs.INTENT.DEFAULT, btjs.INTENT.INFO,
+						btjs.INTENT.WARNING, btjs.INTENT.DANGER,
+						btjs.INTENT.LINK ];
 			}
-			return [btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS, btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING, btjs.INTENT.DANGER];
+			return [ btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS,
+					btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING,
+					btjs.INTENT.DANGER ];
 		}
-			
+
 	}
-	
-	
-	
-	//TODO: label-as-badge trick to colored bagdes
-	//TODO: context instead of intent
-	//TODO: array to know forbidden/mandatory per component/field
+
+	// TODO: label-as-badge trick to colored bagdes
+	// TODO: context instead of intent
+	// TODO: array to know forbidden/mandatory per component/field
 	/*
-	 * var NEED_LEVEL = [	  	 	
-	 *   ["component", "id", "css", "style", "text", "html", "size", "context"
-	 *   ["button"   , null, "css", "style", "mandatory", "html", "size", "context"
-	 *   ["icon"   , null, "css", "style", "mandatory", "forbidden", "size", "context"
-	 *   
-	 *   
-	 *   ]
+	 * var NEED_LEVEL = [ ["component", "id", "css", "style", "text", "html",
+	 * "size", "context" ["button" , null, "css", "style", "mandatory", "html",
+	 * "size", "context" ["icon" , null, "css", "style", "mandatory",
+	 * "forbidden", "size", "context"
 	 * 
-	 * ]
+	 *  ]
+	 *  ]
 	 * 
-	 * and init to transfor into a nice object 
-	 * */
-	//TODO: array for property type, based on https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
-	//TODO: array for property values set
-	//TODO: automatic verification of need status, type, value set
-	//TODO: automatic conversion of properties to classes when possible
-	
+	 * and init to transfor into a nice object
+	 */
+	// TODO: array for property type, based on
+	// https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+	// TODO: array for property values set
+	// TODO: automatic verification of need status, type, value set
+	// TODO: automatic conversion of properties to classes when possible
 	var toType = function(obj) {
-		/* from https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/ */
-		  return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
+		/*
+		 * from
+		 * https://javascriptweblog.wordpress.com/2011/08/08/fixing-the-javascript-typeof-operator/
+		 */
+		return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1]
+				.toLowerCase()
 	};
-	
-	var isBlankString = function(str){
-		return typeof str === 'undefined' || str === null || (typeof str === 'string' && $.trim(str) === '');
+
+	var isBlankString = function(str) {
+		return typeof str === 'undefined' || str === null
+				|| (typeof str === 'string' && $.trim(str) === '');
 	}
-	var isNonNullObject = function(obj){
-		return obj !== null && typeof obj === 'object'; 
+	var isNonNullObject = function(obj) {
+		return obj !== null && typeof obj === 'object';
 	}
-	
-	var validate = {			
-		throwError: function(component, rawOptions, details){
-			var base = 'Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. '; 
+
+	var validate = {
+		throwError : function(component, rawOptions, details) {
+			var base = 'Error trying to create ' + component
+					+ ' with options: ' + JSON.stringify(rawOptions) + '. ';
 			throw new Error(base + details);
-		},	
-		nonEmptyOptions : function(component, rawOptions ){
-			if(typeof rawOptions === 'undefined' || rawOptions === null){
-				this.throwError(component, rawOptions, 'Options can not be null or undefined');
+		},
+		nonEmptyOptions : function(component, rawOptions) {
+			if (typeof rawOptions === 'undefined' || rawOptions === null) {
+				this.throwError(component, rawOptions,
+						'Options can not be null or undefined');
 			}
 		},
-		eitherTextOrHtml: function(component, rawOptions){
-			if(!isBlankString(rawOptions.text) && !isBlankString(rawOptions.html)){
-				this.throwError(component, rawOptions, 'You can not use options.text and options.html at the same time');
+		eitherTextOrHtml : function(component, rawOptions) {
+			if (!isBlankString(rawOptions.text)
+					&& !isBlankString(rawOptions.html)) {
+				this
+						.throwError(component, rawOptions,
+								'You can not use options.text and options.html at the same time');
 			}
-		},		
-		need : function(component, rawOptions){
+		},
+		need : function(component, rawOptions) {
 			var needLevelPerProp = NEED_LEVEL[component];
-			for(var prop in needLevelPerProp){
-				if(needLevelPerProp.hasOwnProperty(prop)){
+			for ( var prop in needLevelPerProp) {
+				if (needLevelPerProp.hasOwnProperty(prop)) {
 					var needLevel = needLevelPerProp[prop];
 					var actualValue = rawOptions[prop];
-					if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
-						this.throwError(component, rawOptions, 'Property options.' + prop + " = " + actualValue + ' and should be null or undefined');
+					if (needLevel === 'forbidden'
+							&& typeof actualValue !== 'undefined'
+							&& actualValue !== null) {
+						this.throwError(component, rawOptions,
+								'Property options.' + prop + " = "
+										+ actualValue
+										+ ' and should be null or undefined');
 					}
-					if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
-						this.throwError(component, rawOptions, 'Property options.' + prop + ' is null or undefined and should have an actual value');
+					if (needLevel === 'mandatory'
+							&& (typeof actualValue === 'undefined' || actualValue === null)) {
+						this
+								.throwError(
+										component,
+										rawOptions,
+										'Property options.'
+												+ prop
+												+ ' is null or undefined and should have an actual value');
 					}
 				}
 			}
 		},
-		types : function(component, rawOptions){
+		types : function(component, rawOptions) {
 			var needLevelPerProp = NEED_LEVEL[component];
-			for(var prop in VALID_TYPES){
-				if(VALID_TYPES.hasOwnProperty(prop)){
+			for ( var prop in VALID_TYPES) {
+				if (VALID_TYPES.hasOwnProperty(prop)) {
 					var validTypes = VALID_TYPES[prop];
 					var actualType = toType(rawOptions[prop]);
-					if(actualType !== 'undefined' && actualType !== 'null' && validTypes.indexOf(actualType) == -1){
-						this.throwError(component, rawOptions, 'Property options.' + prop + " has type " + actualType + ' and should be one of ' + validTypes);
+					if (actualType !== 'undefined' && actualType !== 'null'
+							&& validTypes.indexOf(actualType) == -1) {
+						this.throwError(component, rawOptions,
+								'Property options.' + prop + " has type "
+										+ actualType + ' and should be one of '
+										+ validTypes);
 					}
 				}
 			}
 		},
-		stringSets : function(component, rawOptions){
-			for(var prop in rawOptions){
-				if(rawOptions.hasOwnProperty(prop)){
+		stringSets : function(component, rawOptions) {
+			for ( var prop in rawOptions) {
+				if (rawOptions.hasOwnProperty(prop)) {
 					var actualValue = rawOptions[prop];
-					if(toType(actualValue) === 'string'){
+					if (toType(actualValue) === 'string') {
 						var validStrings = stringSet(component, prop);
-						if(toType(validStrings) === 'array' && validStrings.indexOf(actualValue) === -1){
-							this.throwError(component, rawOptions, 'Property options.' + prop + " = " + actualValue + ' and should be null or undefined or one of ' + validStrings);	
+						if (toType(validStrings) === 'array'
+								&& validStrings.indexOf(actualValue) === -1) {
+							this
+									.throwError(
+											component,
+											rawOptions,
+											'Property options.'
+													+ prop
+													+ " = "
+													+ actualValue
+													+ ' and should be null or undefined or one of '
+													+ validStrings);
 						}
 					}
 				}
 			}
 		}
 	};
-	
-	var idMaker = {
-		counter: 1,	
-		pad: function(num, size) {
-		    var s = num+"";
-		    while (s.length < size) s = "0" + s;
-		    return s;
+
+	/*
+	 * every method assumes data is already validated, so no need to check
+	 * anything
+	 */
+	var classMaker = {
+		makePrefix: function(component){
+			switch(component){
+			case 'button': return 'btn';
+			case 'label': return 'label';
+			}
 		},
-		make: function(id){
-			if(isBlankString(id)){
+		intent: function(component, actualValue) {
+			var prefix = classMaker.makePrefix(component);
+			if (isBlankString(actualValue)) {
+				return prefix + '-default';
+			}
+			return prefix + '-' + actualValue;
+		},
+		size: function(component, actualValue) {
+			var prefix = classMaker.makePrefix(component);
+			if (isBlankString(actualValue)) {
+				return '';
+			}
+			switch (actualValue) {
+			case btjs.SIZE.LARGE:
+				return prefix + '-lg';
+			case btjs.SIZE.SMALL:
+				return prefix + '-sm';
+			case btjs.SIZE.EXTRA_SMALL:
+				return prefix + '-xs';
+			}
+		},
+		visibility : function(component, actualValue) {
+			var prefix = classMaker.makePrefix(component);
+			if (isBlankString(actualValue)) {
+				return '';
+			}
+			return actualValue;
+		},
+		blockLevel: function(component, actualValue){
+			var prefix = classMaker.makePrefix(component);
+			return actualValue === true ? prefix + '-block' : '';
+
+		},
+		active: function(component, actualValue){
+			return actualValue === true ?  'active' : '';
+		}
+
+	}
+
+	var idMaker = {
+		counter : 1,
+		pad : function(num, size) {
+			var s = num + "";
+			while (s.length < size)
+				s = "0" + s;
+			return s;
+		},
+		make : function(id) {
+			if (isBlankString(id)) {
 				return 'btjs-' + this.pad(this.counter++, 5);
 			}
 			return id;
-		}	
+		}
 	};
-	
-	var escapeHtml = function(unsafe) {
-	    return unsafe
-	    	.replace(/&/g, "&amp;")
-	    	.replace(/</g, "&lt;")
-	    	.replace(/>/g, "&gt;")
-	    	.replace(/"/g, "&quot;")
-	    	.replace(/'/g, "&#039;");
-	}
-	
-	var makeIntentClass = function(prefix, intent){
-		if(isBlankString(intent)){
-			return prefix + '-default';
-		}
-		return prefix + '-' + intent;
-	}
-	var makeSizeClass = function(prefix, size){
-		if(isBlankString(size)){
-			return '';
-		}
-		switch (size) {
-		case btjs.SIZE.LARGE:
-			return prefix + '-lg';
-		case btjs.SIZE.SMALL:
-			return prefix +'-sm';
-		case btjs.SIZE.EXTRA_SMALL:
-			return prefix +'-xs';
-		}
 
-		throw Error('invalid size: ' + size);
+	var escapeHtml = function(unsafe) {
+		return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(
+				/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 	}
-	
-	var makeInnerHtml = function(text, html){
-		if(isBlankString(text) && !isBlankString(html)){
+
+	var makeInnerHtml = function(text, html) {
+		if (isBlankString(text) && !isBlankString(html)) {
 			return html;
-		}else if(!isBlankString(text) && isBlankString(html)){
+		} else if (!isBlankString(text) && isBlankString(html)) {
 			return escapeHtml(text);
 		}
 		return '';
 	}
-	
-	
-	var newLabel = function(options){
+
+	var newLabel = function(options) {
 		return newElement(options, {
-			component: 'label',
-			createCode: function (id, options){
-				var intentClass = makeIntentClass('label', options.intent);
+			component : 'label',
+			createCode : function(id, options, automaticClasses) {
 				var innerHtml = makeInnerHtml(options.text, options.html);
-				return '<span id = "' + id +'" class="label ' + intentClass + '" >' +
-					innerHtml +
-				'</span> ';
+				return '<span id = "' + id + '" class="label ' + automaticClasses
+						+ '" >' + innerHtml + '</span> ';
 			}
 		});
 	}
-	var newBadge = function(options){
+	var newBadge = function(options) {
 		return newElement(options, {
-			component: 'badge',
-			createCode: function (id, options){
-				//TODO: hack to create color badges
+			component : 'badge',
+			createCode : function(id, options, automaticClasses) {
+				// TODO: hack to create color badges
 				var innerHtml = makeInnerHtml(options.text, options.html);
-				return '<span id = "' + id +'" class="badge" >' +
-				innerHtml +
-				'</span> ';
+				return '<span id = "' + id + '" class="badge" >' + innerHtml
+						+ '</span> ';
 			}
 		});
 	}
-	
-	var newButton = function(options){
+
+	var newButton = function(options) {
 		return newElement(options, {
-			component: 'button',
-			createCode: function (id, options){
-				var intentClass = makeIntentClass('btn', options.intent);
+			component : 'button',
+			createCode : function(id, options, automaticClasses) {
 				var innerHtml = makeInnerHtml(options.text, options.html);
-				var sizeClass = makeSizeClass('btn', options.size);
-				var blockLevelClass = options.blockLevel ? 'btn-block' : '';
-				var activeClass = options.active ? 'active' : '';
-				var enabled = options.disabled ? 'disabled="disabled"': '';
-				
-				return'<button class="btn btn-' + options.intent + 
-						' ' + sizeClass + 
-						' ' +  blockLevelClass + 
-						' ' +  activeClass + 
-						'" type="button" '+ enabled + '>'
-						+ innerHtml
+				var enabled = options.disabled ? 'disabled="disabled"' : '';
+
+				return '<button class="btn ' + automaticClasses 
+						+ '" type="button" ' + enabled + '>' + innerHtml
 						+ '</button>';
 
 			}
 		});
-	}	
-	var newIcon = function(options){
+	}
+	var newIcon = function(options) {
 		return newElement(options, {
-			component: 'icon',
-			createCode: function (id, options){
-				if(options.iconSource == null){
+			component : 'icon',
+			createCode : function(id, options) {
+				if (options.iconSource == null) {
 					options.iconSource = btjs.ICON_SOURCE.GLYPHICON;
 				}
-				switch(options.iconSource){
-				case btjs.ICON_SOURCE.GLYPHICON: 
-					return 	'<span id = "' + id +'" class="glyphicon glyphicon-'
-					+ options.iconName + '" aria-hidden="true" ></span>';
-				case btjs.ICON_SOURCE.FONT_AWESOME: 
-					return 	'<span><i id="' + id +'" class="fa fa-' 
-					+ options.iconName + '" aria-hidden="true" ></i></span>';
-				case btjs.ICON_SOURCE.IONICONS:  
-					return 	'<span><i id="' + id +'" class="ionicons ion-' 
-					+ options.iconName + '" aria-hidden="true" ></i></span>';
-				case btjs.ICON_SOURCE.MATERIAL:  
-					return 	'<span><i id="' + id +'" class="material-icons" aria-hidden="true">' 
-					+ options.iconName + '</i></span>';
+				switch (options.iconSource) {
+				case btjs.ICON_SOURCE.GLYPHICON:
+					return '<span id = "' + id
+							+ '" class="glyphicon glyphicon-'
+							+ options.iconName
+							+ '" aria-hidden="true" ></span>';
+				case btjs.ICON_SOURCE.FONT_AWESOME:
+					return '<span><i id="' + id + '" class="fa fa-'
+							+ options.iconName
+							+ '" aria-hidden="true" ></i></span>';
+				case btjs.ICON_SOURCE.IONICONS:
+					return '<span><i id="' + id + '" class="ionicons ion-'
+							+ options.iconName
+							+ '" aria-hidden="true" ></i></span>';
+				case btjs.ICON_SOURCE.MATERIAL:
+					return '<span><i id="' + id
+							+ '" class="material-icons" aria-hidden="true">'
+							+ options.iconName + '</i></span>';
 				}
 			}
 		});
 	}
-	
-	var newElement = function(rawOptions, customProcess){
+
+	var newElement = function(rawOptions, customProcess) {
 		automaticValidations(customProcess.component, rawOptions);
-		
+
 		var id = idMaker.make(rawOptions.id);
-		
-		if(typeof customProcess.validations == 'function'){
+
+		if (typeof customProcess.validations == 'function') {
 			customProcess.validations(rawOptions);
 		}
 		
-		var newElementCode = customProcess.createCode(id, rawOptions);
-		
+		var automaticClasses = automaticClassCreation(customProcess.component, rawOptions);
+
+		var newElementCode = customProcess.createCode(id, rawOptions, automaticClasses);
+
 		var $newElement = $(newElementCode);
-		
-		function parseIconName(iconString){
+
+		function parseIconName(iconString) {
 			var slashIndex = iconString.indexOf('/');
-			if(slashIndex == -1){
+			if (slashIndex == -1) {
 				return iconString;
 			}
 			return iconString.substr(slashIndex + 1);
 		}
-		function parseIconSource(iconString){
+		function parseIconSource(iconString) {
 			var slashIndex = iconString.indexOf('/');
-			if(slashIndex == -1){
+			if (slashIndex == -1) {
 				return btjs.ICON_SOURCE.GLYPHICON;
 			}
 			return iconString.substr(0, slashIndex);
 		}
-		
-		
-		if(!isBlankString(rawOptions.icon) || isNonNullObject(rawOptions.icon)){
+
+		if (!isBlankString(rawOptions.icon) || isNonNullObject(rawOptions.icon)) {
 			var iconOptions = typeof rawOptions.icon == 'string' ? {
 				id : id + '-icon',
 				iconSource : parseIconSource(rawOptions.icon),
 				iconName : parseIconName(rawOptions.icon),
-			}:rawOptions.icon; //TODO: manually copy properties and change ID
-			
+			} : rawOptions.icon; // TODO: manually copy properties and change
+									// ID
+
 			$icon = newIcon(iconOptions);
 			$newElement.prepend('&nbsp;');
 			$newElement.prepend($icon);
 		}
-		
-		if(!isBlankString(rawOptions.badge)|| isNonNullObject(rawOptions.badge)){
+
+		if (!isBlankString(rawOptions.badge)
+				|| isNonNullObject(rawOptions.badge)) {
 			var badgeOptions = typeof rawOptions.badge == 'string' ? {
 				id : id + '-badge',
 				text : rawOptions.badge
-			}:rawOptions.badge; //TODO: manually copy properties and change ID
-			
+			} : rawOptions.badge; // TODO: manually copy properties and change
+									// ID
+
 			$badge = newBadge(badgeOptions);
 			$newElement.append('&nbsp;');
 			$newElement.append($badge);
 		}
-		
-		if(typeof customProcess.addChildren === 'function'){
+
+		if (typeof customProcess.addChildren === 'function') {
 			customProcess.addChildren($newElement, id, rawOptions);
 		}
-		
-		if(typeof rawOptions.tooltip === 'string'){
-			$newElement.tooltip({  
-			    title: rawOptions.tooltip
+
+		if (typeof rawOptions.tooltip === 'string') {
+			$newElement.tooltip({
+				title : rawOptions.tooltip
 			});
-		}else if(typeof rawOptions.tooltip === 'object' && rawOptions.tooltip !== null){
-			$newElement.tooltip(  
-			    rawOptions.tooltip
-			);
-		}		
-		
-		if(typeof rawOptions.popover === 'object' && rawOptions.popover !== null){
-			$newElement.popover(  
-			    rawOptions.popover
-			);
+		} else if (typeof rawOptions.tooltip === 'object'
+				&& rawOptions.tooltip !== null) {
+			$newElement.tooltip(rawOptions.tooltip);
 		}
-		
-		if (typeof rawOptions.listeners === 'object' && rawOptions.listeners !== null) {
+
+		if (typeof rawOptions.popover === 'object'
+				&& rawOptions.popover !== null) {
+			$newElement.popover(rawOptions.popover);
+		}
+
+		if (typeof rawOptions.listeners === 'object'
+				&& rawOptions.listeners !== null) {
 			for ( var listener in rawOptions.listeners) {
 				$newElement.on(listener, rawOptions.listeners[listener]);
 			}
-		}		
-		
-		if(rawOptions.id === id){
+		}
+
+		if (rawOptions.id === id) {
 			var $oldElements = $('#' + id);
-			
-			if($oldElements.length > 1){
-				throw Error('There are more than one elements with id ' + id + '. There should be exaclty one if you want it to be replaced, or none to create the element');
-			}else if($oldElements.length == 1){
+
+			if ($oldElements.length > 1) {
+				throw Error('There are more than one elements with id '
+						+ id
+						+ '. There should be exaclty one if you want it to be replaced, or none to create the element');
+			} else if ($oldElements.length == 1) {
 				var oldClasses = $oldElements.attr("class");
 				$newElement.addClass(oldClasses);
 				$oldElements.replaceWith($newElement);
@@ -440,8 +503,8 @@ var btjs = function() {
 
 		return $newElement;
 	}
-	
-	var automaticValidations = function(component, rawOptions){
+
+	var automaticValidations = function(component, rawOptions) {
 		validate.nonEmptyOptions(component, rawOptions);
 		validate.need(component, rawOptions);
 		validate.types(component, rawOptions);
@@ -449,18 +512,29 @@ var btjs = function() {
 		validate.eitherTextOrHtml(component, rawOptions);
 	}
 	
+	var automaticClassCreation = function(component, rawOptions){
+		var cssClasses = [];
+		for(var fieldName in rawOptions){
+			//TODO: use the word prop or property, never field or fieldName
+			//javascript has hasOwnProperty
+			if(rawOptions.hasOwnProperty(fieldName)){
+				var actualValue = rawOptions[fieldName];
+				var converter = classMaker[fieldName];
+				if(toType(converter) === 'function'){
+					var cssClass = converter(component, actualValue);
+					cssClasses.push(cssClass);
+				}
+			}
+		}
+		return cssClasses.join(' ');
+	}
 
-	
-
-		//TODO:
-		// test: mantener las clases originales
-		// test: escapar texto, permitir html y verificar que no vengan juntos
-		// test: retener id;
-		// test: devolver el objeto creado (jquery wrapped)
-		// test: verificar 0 o 1 elemento preexistente
-
-	
-
+	// TODO:
+	// test: mantener las clases originales
+	// test: escapar texto, permitir html y verificar que no vengan juntos
+	// test: retener id;
+	// test: devolver el objeto creado (jquery wrapped)
+	// test: verificar 0 o 1 elemento preexistente
 
 	return {
 		/**
@@ -473,12 +547,12 @@ var btjs = function() {
 		validate : validate,
 		/**
 		 * @memberOf btjs
-		 */		
-		newLabel:newLabel,
+		 */
+		newLabel : newLabel,
 		/**
 		 * @memberOf btjs
-		 */		
-		newBadge:newBadge,
+		 */
+		newBadge : newBadge,
 		/**
 		 * @memberOf btjs
 		 */
@@ -488,7 +562,7 @@ var btjs = function() {
 		 * @memberOf btjs
 		 */
 		newButton : newButton,
-		
+
 		/**
 		 * @memberOf btjs
 		 */
@@ -503,11 +577,11 @@ var btjs = function() {
 		INTENT : {
 			PRIMARY : 'primary',
 			SUCCESS : 'success',
-			DEFAULT: 'default',
+			DEFAULT : 'default',
 			INFO : 'info',
 			WARNING : 'warning',
 			DANGER : 'danger',
-			LINK: 'link'
+			LINK : 'link'
 		},
 		/**
 		 * @memberOf btjs
@@ -524,7 +598,7 @@ var btjs = function() {
 			GLYPHICONS : 'glyphicon',
 			FONT_AWESOME : 'fontAwesome',
 			IONICONS : 'ionicons',
-			MATERIAL: 'material'
+			MATERIAL : 'material'
 		}
 	}
 }();
