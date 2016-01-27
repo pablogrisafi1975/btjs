@@ -164,48 +164,60 @@ var btjs = function() {
 	}
 	
 	var validate = {			
-		nonEmptyOptions : function(component, options ){
-			if(typeof options === 'undefined' || options === null){
-				throw new Error('Error trying to create ' + component + '. Options can not be null or undefined');
+		throwError: function(component, rawOptions, details){
+			var base = 'Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. '; 
+			throw new Error(base + details);
+		},	
+		nonEmptyOptions : function(component, rawOptions ){
+			if(typeof rawOptions === 'undefined' || rawOptions === null){
+				this.throwError(component, rawOptions, 'Options can not be null or undefined');
 			}
 		},
-		eitherTextOrHtml: function(component, options){
-			if(!isBlankString(options.text) && !isBlankString(options.html)){
-				throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(options) + '. You can not use options.text and options.html at the same time');
+		eitherTextOrHtml: function(component, rawOptions){
+			if(!isBlankString(rawOptions.text) && !isBlankString(rawOptions.html)){
+				this.throwError(component, rawOptions, 'You can not use options.text and options.html at the same time');
 			}
 		},		
-		nonEmptyProp : function(obj, name){
-			if(typeof obj[name] === 'undefined' || obj[name] === null){
-				throw new Error('options.' + name + ' can not be null or undefined');
-			}
-		},
-		emptyOrSet: function(obj, name, set){
-			if(typeof obj[name] !== 'undefined' && obj[name] !== null){
-				for(var i = 0; i < set.length; i++){
-					if(set[i] === obj[name]){
-						return
+		need : function(component, rawOptions){
+			var needLevelPerProp = NEED_LEVEL[component];
+			for(var prop in needLevelPerProp){
+				if(needLevelPerProp.hasOwnProperty(prop)){
+					var needLevel = needLevelPerProp[prop];
+					var actualValue = rawOptions[prop];
+					if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
+						this.throwError(component, rawOptions, 'Property options.' + prop + " = " + actualValue + ' and should be null or undefined');
+					}
+					if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
+						this.throwError(component, rawOptions, 'Property options.' + prop + ' is null or undefined and should have an actual value');
 					}
 				}
-				throw new Error('options.' + name + ' should be null or undefined or one of ' + set);
 			}
 		},
-		makeSet: function(obj){
-			var props = [];
-			for(prop in obj) {
-			    if(obj.hasOwnProperty(prop)) {
-			        props.push(obj[prop]);
-			    }
+		types : function(component, rawOptions){
+			var needLevelPerProp = NEED_LEVEL[component];
+			for(var prop in VALID_TYPES){
+				if(VALID_TYPES.hasOwnProperty(prop)){
+					var validTypes = VALID_TYPES[prop];
+					var actualType = toType(rawOptions[prop]);
+					if(actualType !== 'undefined' && actualType !== 'null' && validTypes.indexOf(actualType) == -1){
+						this.throwError(component, rawOptions, 'Property options.' + prop + " has type " + actualType + ' and should be one of ' + validTypes);
+					}
+				}
 			}
-			return props;
 		},
-		
-		empty: function(obj, field){
-			if(!isBlankString(obj[field])){
-				throw new Error('You can not use options.' + field);
+		stringSets : function(component, rawOptions){
+			for(var prop in rawOptions){
+				if(rawOptions.hasOwnProperty(prop)){
+					var actualValue = rawOptions[prop];
+					if(toType(actualValue) === 'string'){
+						var validStrings = stringSet(component, prop);
+						if(toType(validStrings) === 'array' && validStrings.indexOf(actualValue) === -1){
+							this.throwError(component, rawOptions, 'Property options.' + prop + " = " + actualValue + ' and should be null or undefined or one of ' + validStrings);	
+						}
+					}
+				}
 			}
 		}
-		//TODO: validations should specify the component type
-		
 	};
 	
 	var idMaker = {
@@ -267,9 +279,6 @@ var btjs = function() {
 	var newLabel = function(options){
 		return newElement(options, {
 			component: 'label',
-			validations: function(){
-				
-			},
 			createCode: function (id, options){
 				var intentClass = makeIntentClass('label', options.intent);
 				var innerHtml = makeInnerHtml(options.text, options.html);
@@ -282,8 +291,6 @@ var btjs = function() {
 	var newBadge = function(options){
 		return newElement(options, {
 			component: 'badge',
-			validations: function(){
-			},
 			createCode: function (id, options){
 				//TODO: hack to create color badges
 				var innerHtml = makeInnerHtml(options.text, options.html);
@@ -297,8 +304,6 @@ var btjs = function() {
 	var newButton = function(options){
 		return newElement(options, {
 			component: 'button',
-			validations: function(){
-			},
 			createCode: function (id, options){
 				var intentClass = makeIntentClass('btn', options.intent);
 				var innerHtml = makeInnerHtml(options.text, options.html);
@@ -321,11 +326,6 @@ var btjs = function() {
 	var newIcon = function(options){
 		return newElement(options, {
 			component: 'icon',
-			validations: function(){
-				validate.empty(options, 'text');
-				validate.empty(options, 'html');
-				validate.empty(options, 'badge');
-			},
 			createCode: function (id, options){
 				if(options.iconSource == null){
 					options.iconSource = btjs.ICON_SOURCE.GLYPHICON;
@@ -349,7 +349,7 @@ var btjs = function() {
 	}
 	
 	var newElement = function(rawOptions, customProcess){
-		automaticValidations(rawOptions, customProcess.component);
+		automaticValidations(customProcess.component, rawOptions);
 		
 		var id = idMaker.make(rawOptions.id);
 		
@@ -369,7 +369,7 @@ var btjs = function() {
 			return iconString.substr(slashIndex + 1);
 		}
 		function parseIconSource(iconString){
-			var slashIndex = iconString.indexOf(':');
+			var slashIndex = iconString.indexOf('/');
 			if(slashIndex == -1){
 				return btjs.ICON_SOURCE.GLYPHICON;
 			}
@@ -441,54 +441,15 @@ var btjs = function() {
 		return $newElement;
 	}
 	
-	var automaticValidations = function(rawOptions, component){
+	var automaticValidations = function(component, rawOptions){
 		validate.nonEmptyOptions(component, rawOptions);
-		validateNeed(rawOptions, component);
-		validateTypes(rawOptions, component);
-		validateStringSets(rawOptions, component);
+		validate.need(component, rawOptions);
+		validate.types(component, rawOptions);
+		validate.stringSets(component, rawOptions);
 		validate.eitherTextOrHtml(component, rawOptions);
 	}
 	
-	var validateNeed = function(rawOptions, component){
-		var needLevelPerProp = NEED_LEVEL[component];
-		for(var prop in needLevelPerProp){
-			if(needLevelPerProp.hasOwnProperty(prop)){
-				var needLevel = needLevelPerProp[prop];
-				var actualValue = rawOptions[prop];
-				if(needLevel === 'forbidden' && typeof actualValue !== 'undefined' && actualValue !== null){
-					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " = " + actualValue + ' and should be null or undefined');
-				}
-				if(needLevel === 'mandatory' && (typeof actualValue === 'undefined' || actualValue === null)){
-					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + ' is null or undefined and should have an actual value');
-				}
-			}
-		}
-	}
-	var validateTypes = function(rawOptions, component){
-		var needLevelPerProp = NEED_LEVEL[component];
-		for(var prop in VALID_TYPES){
-			if(VALID_TYPES.hasOwnProperty(prop)){
-				var validTypes = VALID_TYPES[prop];
-				var actualType = toType(rawOptions[prop]);
-				if(actualType !== 'undefined' && actualType !== 'null' && validTypes.indexOf(actualType) == -1){
-					throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " has type " + actualType + ' and should be one of ' + validTypes);
-				}
-			}
-		}
-	}
-	var validateStringSets = function(rawOptions, component){
-		for(var prop in rawOptions){
-			if(rawOptions.hasOwnProperty(prop)){
-				var actualValue = rawOptions[prop];
-				if(toType(actualValue) === 'string'){
-					var validStrings = stringSet(component, prop);
-					if(toType(validStrings) === 'array' && validStrings.indexOf(actualValue) === -1){
-						throw new Error('Error trying to create ' + component + ' with options: ' + JSON.stringify(rawOptions) + '. Property options.' + prop + " = " + actualValue + ' and should be null or undefined or one of ' + validStrings);	
-					}
-				}
-			}
-		}
-	}
+
 	
 
 		//TODO:
