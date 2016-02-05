@@ -256,7 +256,7 @@
 	btjs.newIcon({
 		id : 'icon4',
 		iconSource : btjs.ICON_SOURCE.FONT_AWESOME,
-		iconName : 'star'
+		iconName : 'star spin'
 	});
 	btjs.newIcon({
 		id : 'icon5',
@@ -315,73 +315,122 @@
 		badge : '55'
 	});
 
-	btjs
-			.newDropdown({
-				id : 'dropdown1',
-				text : 'first DropDown',
-				//size: 'extra-small',
-				blockLevel : false,
-				intent : 'warning',
-				icon : 'search',
-				align : 'right',
-				badge : '44',
-				/* is not working
-				tooltip: {
-					title: 'tooltip on dropdown',
-					placement: 'right'
-					}, */
-				enabled : true,
-				//dropup: true,
-				//align: 'right', not working
-				items : [
-						{
-							type : 'dropdown-header',
-							text : 'Actions'
-						},
-						{
-							type : 'dropdown-item',
-							text : 'Console',
-							listeners : {
-								click : function(e) {
-											console
-													.log('Console button was clicked with e:'),
-											console.log(e);
-								},
-							}
-						},
-						{
-							text : 'Action'
-						},
-						{
-							text : 'Another Action'
-						},
-						{
-							type : 'dropdown-header',
-							text : 'Edit'
-						},
-						{
-							type : 'dropdown-item',
-							text : 'Select all',
-							enabled : false,
-							listeners : {
-								click : function(e) {
-											console
-													.log('Select all button was clicked with e:'),
-											console.log(e);
-								},
-							}
-						}, {
-							type : 'dropdown-item',
-							text : 'Copy',
-							id : 'copy',
-							icon : 'copy'
-						}, {
-							type : 'dropdown-divider'
-						}, {
-							text : 'Paste',
-							badge : 'has'
-						} ]
-			});
+	btjs.newDropdown({
+			id : 'dropdown1',
+			text : 'first DropDown',
+			//size: 'extra-small',
+			blockLevel : false,
+			intent : 'warning',
+			icon : 'search',
+			align : 'right',
+			badge : '44',
+			enabled : true,
+			items : [
+					{
+						type : 'dropdown-header',
+						text : 'Actions'
+					},
+					{
+						type : 'dropdown-item',
+						text : 'Console'
+					},
+					{
+						text : 'Action'
+					},
+					{
+						text : 'Another Action'
+					},
+					{
+						type : 'dropdown-header',
+						text : 'Edit'
+					},
+					{
+						type : 'dropdown-item',
+						text : 'Select all',
+						disabled : true
+					}, {
+						type : 'dropdown-item',
+						text : 'Copy',
+						id : 'copy',
+						icon : 'copy'
+					}, {
+						type : 'dropdown-divider'
+					}, {
+						text : 'Paste',
+						badge : 'has'
+					} ]
+		});
+	btjs.newDropdown({
+			id : 'dropdown2',
+			text : 'dropDown',
+			blockLevel : false,
+			intent : 'info',
+			icon : 'search',
+			align : btjs.ALIGN.LEFT,
+			badge : '1',
+			tooltip: {
+				title: 'tooltip on dropdown',
+				placement: 'right'
+			}, 
+			popover : {
+				title : 'dropdown popover title',
+				content : 'dropdown popover content',
+				placement : 'bottom'
+			},				
+			enabled : true,
+			dropup: true,
+			items : [
+					{
+						text : 'Edit',
+						type : 'dropdown-header'
+					},
+					{
+						type : 'dropdown-item',
+						text : 'Cut',
+						badge: '1',
+						icon: 'ionicons/scissors',
+						tooltip: 'You can cut'
+					},
+					{
+						text : 'Copy',
+						badge: '',
+						icon: 'ionicons/ios-copy-outline',
+						tooltip: {
+							title: 'you can copy',
+							placement: 'right'
+						}
+					},
+					{
+						text : 'Paste',
+						badge: '0',
+						icon: 'ionicons/ios-copy-outline',
+						disabled: true,
+						tooltip : {
+							title : 'but you cant paste, because it is disabled',
+							placement : 'left'
+						}
+					},
+					{
+						type : 'dropdown-divider'
+					},
+					{
+						type : 'dropdown-header',
+						text : 'Select',
+						badge: '0',
+						icon: 'fontAwesome/usb',
+						tooltip: {
+							title: 'tooltip on header too!',
+							placement: 'right'
+						}
+					},
+					{
+						type : 'dropdown-item',
+						html : 'Select <i>all</i>',
+					}, {
+						type : 'dropdown-item',
+						html : 'Select <b>none</b>',
+					} ]
+		});
 
 	makeDropdown(
 			'#div3',

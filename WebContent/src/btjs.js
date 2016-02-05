@@ -381,7 +381,8 @@ var btjs = function() {
 				var innerHtml = makeInnerHtml(options.text, options.html);
 				var enabled = options.disabled ? 'disabled="disabled"' : '';
 				var dropClass = options.dropup === true ? 'dropup' : 'dropdown';
-				var alignClass = options.align === 'right' ? 'dropdown-menu-right' : 'dropdown-menu-left';
+				var alignClass = options.align === btjs.ALIGN.RIGHT ? 'dropdown-menu-right' : 'dropdown-menu-left';
+				
 				return '<div class=" ' + dropClass + '" id = "' + id + '-wrapper">'
 					+ '  <button id = "' + id + '" class="btn ' + automaticClasses + ' dropdown-toggle" type="button"' 
 				+ enabled + ' data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
@@ -406,18 +407,61 @@ var btjs = function() {
 						var $item = null;
 						switch(item.type){
 						case 'dropdown-header': 
-							$item = $('<li class="dropdown-header">' + makeInnerHtml(item.text, item.html) + '</a></li>');
+							$item = newDropdownHeader(item);
 							break;
 						case 'dropdown-divider': 
-							$item = $('<li role="separator" class="divider"></li>');
+							$item = newDropdownDivider(item);
 							break;
 						default: 
-							$item = $('<li><a href="#">' + makeInnerHtml(item.text, item.html) + '</a></li>');
+							$item = newDropdownItem(item);
 						}
 						
 						$items.append($item)
 					}
 				}
+			}
+		});
+	}
+	var newDropdownItem = function(options) {
+		return newElement(options, {
+			component : 'dropdown-item',
+			createCode : function(id, options, automaticClasses) {
+				var innerHtml = makeInnerHtml(options.text, options.html);
+				var disabledClass = options.disabled ? 'disabled' : '';
+				return 	'<li id = "' + id + '" class = "' + disabledClass + '">'+
+							'<a href="#"><span id = "' + id + '-icon-location"></span>' + innerHtml + '<span id = "' + id + '-badge-location"></span></a>' + 
+						'</li>';
+			},
+			badgeLocationId : function(id){
+				return id + '-badge-location';
+			},
+			iconLocationId : function(id){
+				return id + '-icon-location';
+			},
+		});
+	}
+	var newDropdownHeader = function(options) {
+		return newElement(options, {
+			component : 'dropdown-header',
+			createCode : function(id, options, automaticClasses) {
+				var innerHtml = makeInnerHtml(options.text, options.html);
+				return 	'<li id = "' + id + '" class = "dropdown-header">'+
+				'<span id = "' + id + '-icon-location"></span>' + innerHtml + '<span id = "' + id + '-badge-location"></span>' + 
+				'</li>';
+			},
+			badgeLocationId : function(id){
+				return id + '-badge-location';
+			},
+			iconLocationId : function(id){
+				return id + '-icon-location';
+			},
+		});
+	}
+	var newDropdownDivider = function(options) {
+		return newElement(options, {
+			component : 'dropdown-divider',
+			createCode : function(id, options, automaticClasses) {
+				return 	'<li id = "' + id + '" class = "divider"></li>';
 			}
 		});
 	}
@@ -435,8 +479,9 @@ var btjs = function() {
 							+ options.iconName
 							+ '" aria-hidden="true" ></span>';
 				case btjs.ICON_SOURCE.FONT_AWESOME:
-					return '<span><i id="' + id + '" class="fa fa-'
-							+ options.iconName
+					var icons = $.map(options.iconName.split(' '), function(s){return 'fa-' + s;}).join(' ');
+					return '<span><i id="' + id + '" class="fa '
+							+ icons
 							+ '" aria-hidden="true" ></i></span>';
 				case btjs.ICON_SOURCE.IONICONS:
 					return '<span><i id="' + id + '" class="ionicons ion-'
@@ -621,6 +666,19 @@ var btjs = function() {
 		 * @memberOf btjs
 		 */
 		newDropdown : newDropdown,
+		
+		/**
+		 * @memberOf btjs
+		 */
+		newDropdownItem : newDropdownItem,
+		/**
+		 * @memberOf btjs
+		 */
+		newDropdownHeader : newDropdownHeader,
+		/**
+		 * @memberOf btjs
+		 */
+		newDropdownDivider : newDropdownDivider,
 
 		/**
 		 * @memberOf btjs
@@ -658,6 +716,13 @@ var btjs = function() {
 			FONT_AWESOME : 'fontAwesome',
 			IONICONS : 'ionicons',
 			MATERIAL : 'material'
+		},
+		/**
+		 * @memberOf btjs
+		 */
+		ALIGN : {
+			LEFT : 'left',
+			RIGHT : 'right'
 		}
 	}
 }();
