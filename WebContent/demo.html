@@ -7,7 +7,7 @@
 <title>btjs demo</title>
 <link rel="stylesheet"
 	href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-<!-- Optional theme 
+<!-- Optional theme  
 <link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
 -->
 <!-- Extra Icon fonts -->
@@ -431,181 +431,18 @@
 						html : 'Select <b>none</b>',
 					} ]
 		});
-
-	makeDropdown(
-			'#div3',
-			{
-				text : 'first DropDown',
-				//size: 'extra-small',
-				blockLevel : false,
-				intent : 'warning',
-				icon : 'search',
-				badge : '44',
-				/* is not working
-				tooltip: {
-					title: 'tooltip on dropdown',
-					placement: 'right'
-					}, */
-				enabled : true,
-				//dropup: true,
-				//align: 'right', not working
-				items : [
-						{
-							type : 'header',
-							text : 'Actions'
-						},
-						{
-							type : 'link',
-							id : 'item-action',
-							text : 'Console',
-							listeners : {
-								click : function(e) {
-											console
-													.log('Console button was clicked with e:'),
-											console.log(e);
-								},
-							}
-						},
-						{
-							id : 'item-action',
-							text : 'Action'
-						},
-						{
-							id : 'item-another-action',
-							text : 'Another Action'
-						},
-						{
-							component : 'dropdown-header',
-							text : 'Edit'
-						},
-						{
-							component : 'dropdown-item',
-							text : 'Select all',
-							enabled : false,
-							listeners : {
-								click : function(e) {
-											console
-													.log('Select all button was clicked with e:'),
-											console.log(e);
-								},
-							}
-						}, {
-							component : 'dropdown-item',
-							text : 'Copy',
-							id : 'copy',
-							icon : 'copy'
-						}, {
-							component : 'dropdown-divider',
-						}, {
-							type : 'link',
-							text : 'Paste',
-							badge : 'has'
-						} ]
-			});
-
-	function makeDropdown(id, options) {
-		var size = '';
-		switch (options.size) {
-		case 'large':
-			size = 'btn-lg';
-			break;
-		case 'small':
-			size = 'btn-sm';
-			break;
-		case 'extra-small':
-			size = 'btn-xs';
-			break;
-		}
-		var dropClass = options.dropup ? 'dropup' : 'dropdown';
-		var blockLevel = options.blockLevel ? 'btn-block' : '';
-		var enabled = options.enabled ? '' : 'disabled="disabled"';
-		var iconTemplate = typeof options.icon === 'string' ? '<span class="icon icon-' + options.icon + '" aria-hidden="true"></span> '
-				: '';
-		var badgeTemplate = typeof options.badge !== 'undefined' ? ' <span class="badge">'
-				+ options.badge + '</span>'
-				: '';
-		var tooltipTemplate = typeof options.tooltip === 'string' ? ' data-toggle="tooltip" title="'
-				+ options.tooltip + '" '
-				: '';
-		if (typeof options.tooltip === 'object') {
-			tooltipTemplate = ' data-toggle="tooltip" title="'
-					+ options.tooltip.title
-					+ '" data-container="#dropdownMenuWrapper"'
-			if (typeof options.tooltip.placement === 'string') {
-				tooltipTemplate += ' data-placement = "'
-						+ options.tooltip.placement + '"';
-			}
-			if (typeof options.tooltip.animation === 'boolean') {
-				tooltipTemplate += ' data-animation = "'
-						+ options.tooltip.animation + '"';
-			}
-			if (typeof options.tooltip.delay === 'number') {
-				tooltipTemplate += ' data-delay = "' + options.tooltip.delay
-						+ '"';
-			}
-		}
-		var alignClass = options.align == 'right' ? 'dropdown-menu-right' : '';
-		var template = '<div class="' + dropClass + '" ' + tooltipTemplate+' id = "dropdownMenuWrapper">'
-				+ '  <button class="btn btn-' + options.intent + 
-				' ' + size + 
-				' ' +  blockLevel + ' dropdown-toggle" type="button"' 
-				+ enabled + 'id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
-				+ iconTemplate
-				+ options.text
-				+ badgeTemplate
-				+ '    <span class="caret"></span>'
-				+ '  </button>'
-				+ '  <ul class="dropdown-menu ' + alignClass + '" aria-labelledby="dropdownMenu1" id="dropdownMenu1-items">'
-				+ '  </ul>' + '</div>';
-		var newDropDown = $(template);
-		if (typeof options.listeners === 'object') {
-			for ( var listener in options.listeners) {
-				newDropDown.on(listener, options.listeners[listener]);
-			}
-		}
-
-		var $items = newDropDown.find('#dropdownMenu1-items');
-
-		for (var i = 0; i < options.items.length; i++) {
-			var item = options.items[i];
-			var itemTemplate = '';
-			switch (item.type) {
-			case 'header':
-				itemTemplate = '<li class="dropdown-header">' + item.text
-						+ '</li>';
-				break;
-			case 'divider':
-				itemTemplate = '<li role="separator" class="divider"></li>';
-				break;
-			default:
-				var disabled = item.enabled === false ? 'class= "disabled"'
-						: '';
-				var iconTemplate = typeof item.icon === 'string' ? '<span class="icon icon-' + item.icon + '" aria-hidden="true"></span> '
-						: '';
-				var badgeTemplate = typeof item.badge !== 'undefined' ? ' <span class="badge">'
-						+ item.badge + '</span>'
-						: '';
-
-				itemTemplate = '<li id="" ' + disabled + '><a href="#">'
-						+ iconTemplate + item.text + badgeTemplate
-						+ '</a></li>';
-				break;
-			}
-			var $item = $(itemTemplate);
-			if (typeof item.listeners === 'object') {
-				for ( var listener in item.listeners) {
-					$item.on(listener, item.listeners[listener]);
-				}
-			}
-			$items.append($item)
-
-		}
-
-		$(id).replaceWith(newDropDown);
-		return newDropDown;
-
-	}
-
+	btjs.newDropdown({
+			id : 'dropdown3',
+			text : 'dd3',
+			blockLevel : true,
+			disabled : true,
+			popover : {
+				title : 'dropdown popover title',
+				content : 'dropdown popover content',
+				placement : 'left'
+			}	
+		});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
 </script>

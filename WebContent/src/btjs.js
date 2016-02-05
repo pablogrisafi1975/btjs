@@ -3,6 +3,8 @@
  * @author Pablo
  */
 var btjs = function() {
+	
+	//TODO: separar en partes y compilar de alguna manera... grunt
 
 	var NEED_LEVEL = {
 		icon : {
@@ -80,6 +82,82 @@ var btjs = function() {
 			intent : 'optional',
 			listeners : 'optional',
 			visibility : 'optional',
+			items : 'forbidden'
+		},
+		dropdown : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'optional',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'optional',
+			blockLevel : 'optional',
+			tooltip : 'optional',
+			popover : 'optional',
+			text : 'optional',
+			html : 'optional',
+			intent : 'optional',
+			listeners : 'optional',
+			visibility : 'optional',
+			items : 'optional'
+		},
+		'dropdown-item' : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'forbidden',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'optional',
+			blockLevel : 'forbidden',
+			tooltip : 'optional',
+			popover : 'forbidden',
+			text : 'optional',
+			html : 'optional',
+			intent : 'forbidden',
+			listeners : 'optional',
+			visibility : 'forbidden',
+			items : 'forbidden'
+		},
+		'dropdown-header' : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'forbidden',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'optional',
+			badge : 'optional',
+			blockLevel : 'forbidden',
+			tooltip : 'optional',
+			popover : 'forbidden',
+			text : 'optional',
+			html : 'optional',
+			intent : 'forbidden',
+			listeners : 'optional',
+			visibility : 'forbidden',
+			items : 'forbidden'
+		},
+		'dropdown-divider' : {
+			id : 'optional',
+			cssClass : 'optional',
+			cssStyle : 'optional',
+			size : 'forbidden',
+			iconSource : 'forbidden',
+			iconName : 'forbidden',
+			icon : 'forbidden',
+			badge : 'forbidden',
+			blockLevel : 'forbidden',
+			tooltip : 'forbidden',
+			popover : 'forbidden',
+			text : 'forbidden',
+			html : 'forbidden',
+			intent : 'forbidden',
+			listeners : 'forbidden',
+			visibility : 'forbidden',
 			items : 'forbidden'
 		}
 
