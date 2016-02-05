@@ -105,6 +105,24 @@
 			<div id='button5'></div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-2">Dropdowns</div>
+		<div class="col-md-2">
+			<div id='dropdown1'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='dropdown2'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='dropdown3'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='dropdown4'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='dropdown5'></div>
+		</div>
+	</div>
 	<br />
 	<div id="div1"></div>
 	<br />
@@ -268,7 +286,7 @@
 		html : 'button with <i>html</i> small',
 		size : btjs.SIZE.SMALL,
 		intent : btjs.INTENT.PRIMARY,
-		active: false,
+		active : false,
 		tooltip : {
 			title : 'slow tooltip',
 			placement : 'left',
@@ -296,6 +314,74 @@
 		icon : 'music',
 		badge : '55'
 	});
+
+	btjs
+			.newDropdown({
+				id : 'dropdown1',
+				text : 'first DropDown',
+				//size: 'extra-small',
+				blockLevel : false,
+				intent : 'warning',
+				icon : 'search',
+				align : 'right',
+				badge : '44',
+				/* is not working
+				tooltip: {
+					title: 'tooltip on dropdown',
+					placement: 'right'
+					}, */
+				enabled : true,
+				//dropup: true,
+				//align: 'right', not working
+				items : [
+						{
+							type : 'dropdown-header',
+							text : 'Actions'
+						},
+						{
+							type : 'dropdown-item',
+							text : 'Console',
+							listeners : {
+								click : function(e) {
+											console
+													.log('Console button was clicked with e:'),
+											console.log(e);
+								},
+							}
+						},
+						{
+							text : 'Action'
+						},
+						{
+							text : 'Another Action'
+						},
+						{
+							type : 'dropdown-header',
+							text : 'Edit'
+						},
+						{
+							type : 'dropdown-item',
+							text : 'Select all',
+							enabled : false,
+							listeners : {
+								click : function(e) {
+											console
+													.log('Select all button was clicked with e:'),
+											console.log(e);
+								},
+							}
+						}, {
+							type : 'dropdown-item',
+							text : 'Copy',
+							id : 'copy',
+							icon : 'copy'
+						}, {
+							type : 'dropdown-divider'
+						}, {
+							text : 'Paste',
+							badge : 'has'
+						} ]
+			});
 
 	makeDropdown(
 			'#div3',
@@ -340,11 +426,11 @@
 							text : 'Another Action'
 						},
 						{
-							type : 'header',
+							component : 'dropdown-header',
 							text : 'Edit'
 						},
 						{
-							type : 'link',
+							component : 'dropdown-item',
 							text : 'Select all',
 							enabled : false,
 							listeners : {
@@ -355,12 +441,12 @@
 								},
 							}
 						}, {
-							type : 'link',
+							component : 'dropdown-item',
 							text : 'Copy',
 							id : 'copy',
 							icon : 'copy'
 						}, {
-							type : 'divider'
+							component : 'dropdown-divider',
 						}, {
 							type : 'link',
 							text : 'Paste',

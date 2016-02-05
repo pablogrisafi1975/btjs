@@ -144,9 +144,7 @@ var btjs = function() {
 	 * "size", "context" ["button" , null, "css", "style", "mandatory", "html",
 	 * "size", "context" ["icon" , null, "css", "style", "mandatory",
 	 * "forbidden", "size", "context"
-	 * 
-	 *  ]
-	 *  ]
+	 *  ] ]
 	 * 
 	 * and init to transfor into a nice object
 	 */
@@ -265,20 +263,21 @@ var btjs = function() {
 	 * anything
 	 */
 	var classMaker = {
-		makePrefix: function(component){
-			switch(component){
+		makePrefix : function(component) {
+			switch (component) {
 			case 'button': return 'btn';
+			case 'dropdown': return 'btn';
 			case 'label': return 'label';
 			}
 		},
-		intent: function(component, actualValue) {
+		intent : function(component, actualValue) {
 			var prefix = classMaker.makePrefix(component);
 			if (isBlankString(actualValue)) {
 				return prefix + '-default';
 			}
 			return prefix + '-' + actualValue;
 		},
-		size: function(component, actualValue) {
+		size : function(component, actualValue) {
 			var prefix = classMaker.makePrefix(component);
 			if (isBlankString(actualValue)) {
 				return '';
@@ -299,15 +298,14 @@ var btjs = function() {
 			}
 			return actualValue;
 		},
-		blockLevel: function(component, actualValue){
+		blockLevel : function(component, actualValue) {
 			var prefix = classMaker.makePrefix(component);
 			return actualValue === true ? prefix + '-block' : '';
 
 		},
-		active: function(component, actualValue){
-			return actualValue === true ?  'active' : '';
+		active : function(component, actualValue) {
+			return actualValue === true ? 'active' : '';
 		}
-
 	}
 
 	var idMaker = {
@@ -345,8 +343,8 @@ var btjs = function() {
 			component : 'label',
 			createCode : function(id, options, automaticClasses) {
 				var innerHtml = makeInnerHtml(options.text, options.html);
-				return '<span id = "' + id + '" class="label ' + automaticClasses
-						+ '" >' + innerHtml + '</span> ';
+				return '<span id = "' + id + '" class="label '
+						+ automaticClasses + '" >' + innerHtml + '</span> ';
 			}
 		});
 	}
@@ -369,10 +367,57 @@ var btjs = function() {
 				var innerHtml = makeInnerHtml(options.text, options.html);
 				var enabled = options.disabled ? 'disabled="disabled"' : '';
 
-				return '<button class="btn ' + automaticClasses 
+				return '<button id = "' + id + '" class="btn ' + automaticClasses
 						+ '" type="button" ' + enabled + '>' + innerHtml
 						+ '</button>';
 
+			}
+		});
+	}
+	var newDropdown = function(options) {
+		return newElement(options, {
+			component : 'dropdown',
+			createCode : function(id, options, automaticClasses) {
+				var innerHtml = makeInnerHtml(options.text, options.html);
+				var enabled = options.disabled ? 'disabled="disabled"' : '';
+				var dropClass = options.dropup === true ? 'dropup' : 'dropdown';
+				var alignClass = options.align === 'right' ? 'dropdown-menu-right' : 'dropdown-menu-left';
+				return '<div class=" ' + dropClass + '" id = "' + id + '-wrapper">'
+					+ '  <button id = "' + id + '" class="btn ' + automaticClasses + ' dropdown-toggle" type="button"' 
+				+ enabled + ' data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'
+				+ innerHtml
+				+ '    <span id = "' + id + '-badge-location"></span> <span class="caret"></span>'
+				+ '  </button>'
+				+ '  <ul class="dropdown-menu ' + alignClass + '" aria-labelledby="' + id + '" id="' + id + '-items">'
+				+ '  </ul>' 
+				+ '</div>';
+			},
+			badgeLocationId : function(id){
+				return id + '-badge-location';
+			},
+			iconLocationId : function(id){
+				return id;
+			},
+			addChildren: function($newElement, id, rawOptions){
+				if(toType(rawOptions.items) === 'array'){
+					var $items = $newElement.find('#' + id + '-items');
+					for (var i = 0; i < rawOptions.items.length; i++) {
+						var item = options.items[i];
+						var $item = null;
+						switch(item.type){
+						case 'dropdown-header': 
+							$item = $('<li class="dropdown-header">' + makeInnerHtml(item.text, item.html) + '</a></li>');
+							break;
+						case 'dropdown-divider': 
+							$item = $('<li role="separator" class="divider"></li>');
+							break;
+						default: 
+							$item = $('<li><a href="#">' + makeInnerHtml(item.text, item.html) + '</a></li>');
+						}
+						
+						$items.append($item)
+					}
+				}
 			}
 		});
 	}
@@ -414,13 +459,15 @@ var btjs = function() {
 		if (typeof customProcess.validations == 'function') {
 			customProcess.validations(rawOptions);
 		}
-		
-		var automaticClasses = automaticClassCreation(customProcess.component, rawOptions);
 
-		var newElementCode = customProcess.createCode(id, rawOptions, automaticClasses);
+		var automaticClasses = automaticClassCreation(customProcess.component,
+				rawOptions);
+
+		var newElementCode = customProcess.createCode(id, rawOptions,
+				automaticClasses);
 
 		var $newElement = $(newElementCode);
-
+		
 		function parseIconName(iconString) {
 			var slashIndex = iconString.indexOf('/');
 			if (slashIndex == -1) {
@@ -442,11 +489,15 @@ var btjs = function() {
 				iconSource : parseIconSource(rawOptions.icon),
 				iconName : parseIconName(rawOptions.icon),
 			} : rawOptions.icon; // TODO: manually copy properties and change
-									// ID
+			// ID
 
 			$icon = newIcon(iconOptions);
-			$newElement.prepend('&nbsp;');
-			$newElement.prepend($icon);
+			$iconLocation = toType(customProcess.iconLocationId) === 'function' ?
+					$newElement.find('#' + customProcess.iconLocationId(id)):
+					$newElement;
+			
+			$iconLocation.prepend('&nbsp;');
+			$iconLocation.prepend($icon);
 		}
 
 		if (!isBlankString(rawOptions.badge)
@@ -455,11 +506,15 @@ var btjs = function() {
 				id : id + '-badge',
 				text : rawOptions.badge
 			} : rawOptions.badge; // TODO: manually copy properties and change
-									// ID
+			// ID
 
 			$badge = newBadge(badgeOptions);
-			$newElement.append('&nbsp;');
-			$newElement.append($badge);
+			$badgeLocation = toType(customProcess.badgeLocationId) === 'function' ?
+					$newElement.find('#' + customProcess.badgeLocationId(id)):
+					$newElement;
+			
+			$badgeLocation.append('&nbsp;');
+			$badgeLocation.append($badge);
 		}
 
 		if (typeof customProcess.addChildren === 'function') {
@@ -511,16 +566,16 @@ var btjs = function() {
 		validate.stringSets(component, rawOptions);
 		validate.eitherTextOrHtml(component, rawOptions);
 	}
-	
-	var automaticClassCreation = function(component, rawOptions){
+
+	var automaticClassCreation = function(component, rawOptions) {
 		var cssClasses = [];
-		for(var fieldName in rawOptions){
-			//TODO: use the word prop or property, never field or fieldName
-			//javascript has hasOwnProperty
-			if(rawOptions.hasOwnProperty(fieldName)){
+		for ( var fieldName in rawOptions) {
+			// TODO: use the word prop or property, never field or fieldName
+			// javascript has hasOwnProperty
+			if (rawOptions.hasOwnProperty(fieldName)) {
 				var actualValue = rawOptions[fieldName];
 				var converter = classMaker[fieldName];
-				if(toType(converter) === 'function'){
+				if (toType(converter) === 'function') {
 					var cssClass = converter(component, actualValue);
 					cssClasses.push(cssClass);
 				}
@@ -562,6 +617,10 @@ var btjs = function() {
 		 * @memberOf btjs
 		 */
 		newButton : newButton,
+		/**
+		 * @memberOf btjs
+		 */
+		newDropdown : newDropdown,
 
 		/**
 		 * @memberOf btjs
