@@ -17,7 +17,7 @@ btjs.NEED_LEVEL = {
 		popover : 'optional',
 		text : 'forbidden',
 		html : 'forbidden',
-		intent : 'forbidden',
+		context : 'forbidden',
 		size : 'forbidden',
 		listeners : 'optional',
 		visibility : 'optional',
@@ -37,7 +37,7 @@ btjs.NEED_LEVEL = {
 		popover : 'optional',
 		text : 'optional',
 		html : 'optional',
-		intent : 'forbidden',
+		context : 'forbidden',
 		listeners : 'optional',
 		visibility : 'optional',
 		items : 'forbidden'
@@ -56,7 +56,7 @@ btjs.NEED_LEVEL = {
 		popover : 'optional',
 		text : 'optional',
 		html : 'optional',
-		intent : 'optional',
+		context : 'optional',
 		listeners : 'optional',
 		visibility : 'optional',
 		items : 'forbidden'
@@ -75,7 +75,7 @@ btjs.NEED_LEVEL = {
 		popover : 'optional',
 		text : 'optional',
 		html : 'optional',
-		intent : 'optional',
+		context : 'optional',
 		listeners : 'optional',
 		visibility : 'optional',
 		items : 'forbidden'
@@ -94,7 +94,7 @@ btjs.NEED_LEVEL = {
 		popover : 'optional',
 		text : 'optional',
 		html : 'optional',
-		intent : 'optional',
+		context : 'optional',
 		listeners : 'optional',
 		visibility : 'optional',
 		items : 'optional'
@@ -113,7 +113,7 @@ btjs.NEED_LEVEL = {
 		popover : 'forbidden',
 		text : 'optional',
 		html : 'optional',
-		intent : 'forbidden',
+		context : 'forbidden',
 		listeners : 'optional',
 		visibility : 'forbidden',
 		items : 'forbidden'
@@ -132,7 +132,7 @@ btjs.NEED_LEVEL = {
 		popover : 'forbidden',
 		text : 'optional',
 		html : 'optional',
-		intent : 'forbidden',
+		context : 'forbidden',
 		listeners : 'optional',
 		visibility : 'forbidden',
 		items : 'forbidden'
@@ -151,7 +151,7 @@ btjs.NEED_LEVEL = {
 		popover : 'forbidden',
 		text : 'forbidden',
 		html : 'forbidden',
-		intent : 'forbidden',
+		context : 'forbidden',
 		listeners : 'forbidden',
 		visibility : 'forbidden',
 		items : 'forbidden'
@@ -173,7 +173,7 @@ btjs.VALID_TYPES = {
 	popover : [ 'string', 'object' ],
 	text : [ 'string', 'object', 'boolean', 'number' ],
 	html : [ 'string' ],
-	intent : [ 'string' ],
+	context : [ 'string' ],
 	listeners : [ 'object' ],
 	visibility : [ 'string' ],
 	items : [ 'array' ]
@@ -194,14 +194,14 @@ btjs.stringSet = function(component, field) {
 	case 'iconSource':
 		return [ btjs.ICON_SOURCE.GLYPHICONS, btjs.ICON_SOURCE.FONT_AWESOME,
 				btjs.ICON_SOURCE.IONICONS, btjs.ICON_SOURCE.MATERIAL ]
-	case 'intent':
+	case 'context':
 		if (component === 'button') {
-			return [ btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS,
-					btjs.INTENT.DEFAULT, btjs.INTENT.INFO, btjs.INTENT.WARNING,
-					btjs.INTENT.DANGER, btjs.INTENT.LINK ];
+			return [ btjs.CONTEXT.PRIMARY, btjs.CONTEXT.SUCCESS,
+					btjs.CONTEXT.DEFAULT, btjs.CONTEXT.INFO, btjs.CONTEXT.WARNING,
+					btjs.CONTEXT.DANGER, btjs.CONTEXT.LINK ];
 		}
-		return [ btjs.INTENT.PRIMARY, btjs.INTENT.SUCCESS, btjs.INTENT.DEFAULT,
-				btjs.INTENT.INFO, btjs.INTENT.WARNING, btjs.INTENT.DANGER ];
+		return [ btjs.CONTEXT.PRIMARY, btjs.CONTEXT.SUCCESS, btjs.CONTEXT.DEFAULT,
+				btjs.CONTEXT.INFO, btjs.CONTEXT.WARNING, btjs.CONTEXT.DANGER ];
 	}
 
 }

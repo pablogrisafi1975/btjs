@@ -4,7 +4,6 @@
  */
 var btjs =  {};
 //TODO: placement como constantes
-// TODO: context instead of intent
 
 /**
  * @memberOf btjs
@@ -17,13 +16,14 @@ btjs.SIZE = {
 /**
  * @memberOf btjs
  */
-btjs.INTENT = {
+btjs.CONTEXT = {
 	PRIMARY : 'primary',
 	SUCCESS : 'success',
 	DEFAULT : 'default',
 	INFO : 'info',
 	WARNING : 'warning',
 	DANGER : 'danger',
+	/** only valid for buttons */
 	LINK : 'link'
 };
 /**

@@ -3,6 +3,9 @@
  * @author Pablo
  */
 
+//TODO: btype instead of component
+//TODO: automatic html: we need a cookedOptions
+
 btjs.makeInnerHtml = function(text, html) {
 	if (btjs.isBlankString(text) && !btjs.isBlankString(html)) {
 		return html;

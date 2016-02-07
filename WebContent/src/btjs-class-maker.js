@@ -9,7 +9,7 @@ btjs.classMaker = {
 			return 'label';
 		}
 	},
-	intent : function(component, actualValue) {
+	context : function(component, actualValue) {
 		var prefix = btjs.classMaker.makePrefix(component);
 		if (btjs.isBlankString(actualValue)) {
 			return prefix + '-default';
