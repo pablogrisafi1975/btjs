@@ -1,6 +1,6 @@
 btjs.newDropdownDivider = function(options) {
 	return btjs.newElement(options, {
-		component : 'dropdown-divider',
+		btype : btjs.BTYPE.DROPDOWN_DIVIDER,
 		createCode : function(id, options, automaticClasses) {
 			return '<li id = "' + id + '" class = "divider"></li>';
 		}

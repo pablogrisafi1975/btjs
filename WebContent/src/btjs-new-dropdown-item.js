@@ -1,6 +1,6 @@
 btjs.newDropdownItem = function(options) {
 	return btjs.newElement(options, {
-		component : 'dropdown-item',
+		btype : btjs.BTYPE.DROPDOWN_ITEM,
 		createCode : function(id, options, automaticClasses) {
 			var innerHtml = btjs.makeInnerHtml(options.text, options.html);
 			var disabledClass = options.disabled ? 'disabled' : '';

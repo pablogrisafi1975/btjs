@@ -1,6 +1,6 @@
 btjs.newIcon = function(options) {
 	return btjs.newElement(options, {
-		component : 'icon',
+		btype : btjs.BTYPE.ICON,
 		createCode : function(id, options) {
 			if (options.iconSource == null) {
 				options.iconSource = btjs.ICON_SOURCE.GLYPHICON;

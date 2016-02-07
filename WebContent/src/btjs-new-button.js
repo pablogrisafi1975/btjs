@@ -1,6 +1,6 @@
 btjs.newButton = function(options) {
 	return btjs.newElement(options, {
-		component : 'button',
+		btype : btjs.BTYPE.BUTTON,
 		createCode : function(id, options, automaticClasses) {
 			var innerHtml = btjs.makeInnerHtml(options.text, options.html);
 			var enabled = options.disabled ? 'disabled="disabled"' : '';

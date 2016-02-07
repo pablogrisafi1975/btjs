@@ -1,6 +1,6 @@
 btjs.newDropdownHeader = function(options) {
 	return btjs.newElement(options, {
-		component : 'dropdown-header',
+		btype : btjs.BTYPE.DROPDOWN_HEADER,
 		createCode : function(id, options, automaticClasses) {
 			var innerHtml = btjs.makeInnerHtml(options.text, options.html);
 			return '<li id = "' + id + '" class = "dropdown-header">'

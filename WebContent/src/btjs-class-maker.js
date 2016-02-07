@@ -1,6 +1,6 @@
 btjs.classMaker = {
-	makePrefix : function(component) {
-		switch (component) {
+	makePrefix : function(btype) {
+		switch (btype) {
 		case 'button':
 			return 'btn';
 		case 'dropdown':
@@ -9,15 +9,15 @@ btjs.classMaker = {
 			return 'label';
 		}
 	},
-	context : function(component, actualValue) {
-		var prefix = btjs.classMaker.makePrefix(component);
+	context : function(btype, actualValue) {
+		var prefix = btjs.classMaker.makePrefix(btype);
 		if (btjs.isBlankString(actualValue)) {
 			return prefix + '-default';
 		}
 		return prefix + '-' + actualValue;
 	},
-	size : function(component, actualValue) {
-		var prefix = btjs.classMaker.makePrefix(component);
+	size : function(btype, actualValue) {
+		var prefix = btjs.classMaker.makePrefix(btype);
 		if (btjs.isBlankString(actualValue)) {
 			return '';
 		}
@@ -30,19 +30,19 @@ btjs.classMaker = {
 			return prefix + '-xs';
 		}
 	},
-	visibility : function(component, actualValue) {
-		var prefix = btjs.classMaker.makePrefix(component);
+	visibility : function(btype, actualValue) {
+		var prefix = btjs.classMaker.makePrefix(btype);
 		if (btjs.isBlankString(actualValue)) {
 			return '';
 		}
 		return actualValue;
 	},
-	blockLevel : function(component, actualValue) {
-		var prefix = btjs.classMaker.makePrefix(component);
+	blockLevel : function(btype, actualValue) {
+		var prefix = btjs.classMaker.makePrefix(btype);
 		return actualValue === true ? prefix + '-block' : '';
 
 	},
-	active : function(component, actualValue) {
+	active : function(btype, actualValue) {
 		return actualValue === true ? 'active' : '';
 	}
 }

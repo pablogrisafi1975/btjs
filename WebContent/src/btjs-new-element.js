@@ -3,7 +3,7 @@
  * @author Pablo
  */
 
-//TODO: btype instead of component
+//TODO: btype instead of btype
 //TODO: automatic html: we need a cookedOptions
 
 btjs.makeInnerHtml = function(text, html) {
@@ -16,7 +16,7 @@ btjs.makeInnerHtml = function(text, html) {
 }
 
 btjs.newElement = function(rawOptions, customProcess) {
-	btjs.automaticValidations(customProcess.component, rawOptions);
+	btjs.automaticValidations(customProcess.btype, rawOptions);
 
 	var id = btjs.idMaker.make(rawOptions.id);
 
@@ -24,7 +24,7 @@ btjs.newElement = function(rawOptions, customProcess) {
 		customProcess.validations(rawOptions);
 	}
 
-	var automaticClasses = btjs.automaticClassCreation(customProcess.component,
+	var automaticClasses = btjs.automaticClassCreation(customProcess.btype,
 			rawOptions);
 
 	var newElementCode = customProcess.createCode(id, rawOptions,
@@ -121,15 +121,15 @@ btjs.newElement = function(rawOptions, customProcess) {
 	return $newElement;
 }
 
-btjs.automaticValidations = function(component, rawOptions) {
-	btjs.validate.nonEmptyOptions(component, rawOptions);
-	btjs.validate.need(component, rawOptions);
-	btjs.validate.types(component, rawOptions);
-	btjs.validate.stringSets(component, rawOptions);
-	btjs.validate.eitherTextOrHtml(component, rawOptions);
+btjs.automaticValidations = function(btype, rawOptions) {
+	btjs.validate.nonEmptyOptions(btype, rawOptions);
+	btjs.validate.need(btype, rawOptions);
+	btjs.validate.types(btype, rawOptions);
+	btjs.validate.stringSets(btype, rawOptions);
+	btjs.validate.eitherTextOrHtml(btype, rawOptions);
 }
 
-btjs.automaticClassCreation = function(component, rawOptions) {
+btjs.automaticClassCreation = function(btype, rawOptions) {
 	var cssClasses = [];
 	for ( var fieldName in rawOptions) {
 		// TODO: use the word prop or property, never field or fieldName
@@ -138,7 +138,7 @@ btjs.automaticClassCreation = function(component, rawOptions) {
 			var actualValue = rawOptions[fieldName];
 			var converter = btjs.classMaker[fieldName];
 			if (btjs.toType(converter) === 'function') {
-				var cssClass = converter(component, actualValue);
+				var cssClass = converter(btype, actualValue);
 				cssClasses.push(cssClass);
 			}
 		}

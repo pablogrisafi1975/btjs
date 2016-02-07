@@ -99,7 +99,7 @@ btjs.NEED_LEVEL = {
 		visibility : 'optional',
 		items : 'optional'
 	},
-	'dropdown-item' : {
+	dropdownItem : {
 		id : 'optional',
 		cssClass : 'optional',
 		cssStyle : 'optional',
@@ -118,7 +118,7 @@ btjs.NEED_LEVEL = {
 		visibility : 'forbidden',
 		items : 'forbidden'
 	},
-	'dropdown-header' : {
+	dropdownHeader : {
 		id : 'optional',
 		cssClass : 'optional',
 		cssStyle : 'optional',
@@ -137,7 +137,7 @@ btjs.NEED_LEVEL = {
 		visibility : 'forbidden',
 		items : 'forbidden'
 	},
-	'dropdown-divider' : {
+	dropdownDivider : {
 		id : 'optional',
 		cssClass : 'optional',
 		cssStyle : 'optional',
@@ -179,10 +179,10 @@ btjs.VALID_TYPES = {
 	items : [ 'array' ]
 }
 
-btjs.stringSet = function(component, field) {
+btjs.stringSet = function(btype, field) {
 	switch (field) {
 	case 'size':
-		if (component === 'button' || component === 'label') {
+		if (btype === 'button' || btype === 'label') {
 			return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL ];
 		} else {
 			return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL ];
@@ -195,47 +195,50 @@ btjs.stringSet = function(component, field) {
 		return [ btjs.ICON_SOURCE.GLYPHICONS, btjs.ICON_SOURCE.FONT_AWESOME,
 				btjs.ICON_SOURCE.IONICONS, btjs.ICON_SOURCE.MATERIAL ]
 	case 'context':
-		if (component === 'button') {
+		if (btype === 'button') {
 			return [ btjs.CONTEXT.PRIMARY, btjs.CONTEXT.SUCCESS,
-					btjs.CONTEXT.DEFAULT, btjs.CONTEXT.INFO, btjs.CONTEXT.WARNING,
-					btjs.CONTEXT.DANGER, btjs.CONTEXT.LINK ];
+					btjs.CONTEXT.DEFAULT, btjs.CONTEXT.INFO,
+					btjs.CONTEXT.WARNING, btjs.CONTEXT.DANGER,
+					btjs.CONTEXT.LINK ];
 		}
-		return [ btjs.CONTEXT.PRIMARY, btjs.CONTEXT.SUCCESS, btjs.CONTEXT.DEFAULT,
-				btjs.CONTEXT.INFO, btjs.CONTEXT.WARNING, btjs.CONTEXT.DANGER ];
+		return [ btjs.CONTEXT.PRIMARY, btjs.CONTEXT.SUCCESS,
+				btjs.CONTEXT.DEFAULT, btjs.CONTEXT.INFO, btjs.CONTEXT.WARNING,
+				btjs.CONTEXT.DANGER ];
 	}
 
 }
 
-// TODO: array to know forbidden/mandatory per component/field
+// TODO: array to know forbidden/mandatory per btype/field
 /*
- * var NEED_LEVEL = [ ["component", "id", "css", "style", "text", "html",
- * "size", "context" ["button" , null, "css", "style", "mandatory", "html",
- * "size", "context" ["icon" , null, "css", "style", "mandatory", "forbidden",
- * "size", "context" ] ]
+ * var NEED_LEVEL = [ ["btype", "id", "css", "style", "text", "html", "size",
+ * "context" ["button" , null, "css", "style", "mandatory", "html", "size",
+ * "context" ["icon" , null, "css", "style", "mandatory", "forbidden", "size",
+ * "context" ] ]
  * 
  * and init to transfor into a nice object
  */
 btjs.validate = {
-	throwError : function(component, rawOptions, details) {
-		var base = 'Error trying to create ' + component + ' with options: '
+	throwError : function(btype, rawOptions, details) {
+		var base = 'Error trying to create ' + btype + ' with options: '
 				+ JSON.stringify(rawOptions) + '. ';
 		throw new Error(base + details);
 	},
-	nonEmptyOptions : function(component, rawOptions) {
+	nonEmptyOptions : function(btype, rawOptions) {
 		if (typeof rawOptions === 'undefined' || rawOptions === null) {
-			this.throwError(component, rawOptions,
+			this.throwError(btype, rawOptions,
 					'Options can not be null or undefined');
 		}
 	},
-	eitherTextOrHtml : function(component, rawOptions) {
-		if (!btjs.isBlankString(rawOptions.text) && !btjs.isBlankString(rawOptions.html)) {
+	eitherTextOrHtml : function(btype, rawOptions) {
+		if (!btjs.isBlankString(rawOptions.text)
+				&& !btjs.isBlankString(rawOptions.html)) {
 			this
-					.throwError(component, rawOptions,
+					.throwError(btype, rawOptions,
 							'You can not use options.text and options.html at the same time');
 		}
 	},
-	need : function(component, rawOptions) {
-		var needLevelPerProp = btjs.NEED_LEVEL[component];
+	need : function(btype, rawOptions) {
+		var needLevelPerProp = btjs.NEED_LEVEL[btype];
 		for ( var prop in needLevelPerProp) {
 			if (needLevelPerProp.hasOwnProperty(prop)) {
 				var needLevel = needLevelPerProp[prop];
@@ -243,7 +246,7 @@ btjs.validate = {
 				if (needLevel === 'forbidden'
 						&& typeof actualValue !== 'undefined'
 						&& actualValue !== null) {
-					this.throwError(component, rawOptions, 'Property options.'
+					this.throwError(btype, rawOptions, 'Property options.'
 							+ prop + " = " + actualValue
 							+ ' and should be null or undefined');
 				}
@@ -251,7 +254,7 @@ btjs.validate = {
 						&& (typeof actualValue === 'undefined' || actualValue === null)) {
 					this
 							.throwError(
-									component,
+									btype,
 									rawOptions,
 									'Property options.'
 											+ prop
@@ -260,39 +263,33 @@ btjs.validate = {
 			}
 		}
 	},
-	types : function(component, rawOptions) {
-		var needLevelPerProp = btjs.NEED_LEVEL[component];
+	types : function(btype, rawOptions) {
+		var needLevelPerProp = btjs.NEED_LEVEL[btype];
 		for ( var prop in btjs.VALID_TYPES) {
 			if (btjs.VALID_TYPES.hasOwnProperty(prop)) {
 				var validTypes = btjs.VALID_TYPES[prop];
 				var actualType = btjs.toType(rawOptions[prop]);
 				if (actualType !== 'undefined' && actualType !== 'null'
 						&& validTypes.indexOf(actualType) == -1) {
-					this.throwError(component, rawOptions, 'Property options.'
+					this.throwError(btype, rawOptions, 'Property options.'
 							+ prop + " has type " + actualType
 							+ ' and should be one of ' + validTypes);
 				}
 			}
 		}
 	},
-	stringSets : function(component, rawOptions) {
+	stringSets : function(btype, rawOptions) {
 		for ( var prop in rawOptions) {
 			if (rawOptions.hasOwnProperty(prop)) {
 				var actualValue = rawOptions[prop];
 				if (btjs.toType(actualValue) === 'string') {
-					var validStrings = btjs.stringSet(component, prop);
+					var validStrings = btjs.stringSet(btype, prop);
 					if (btjs.toType(validStrings) === 'array'
 							&& validStrings.indexOf(actualValue) === -1) {
-						this
-								.throwError(
-										component,
-										rawOptions,
-										'Property options.'
-												+ prop
-												+ " = "
-												+ actualValue
-												+ ' and should be null or undefined or one of '
-												+ validStrings);
+						this.throwError(btype, rawOptions, 'Property options.'
+								+ prop + " = " + actualValue
+								+ ' and should be null or undefined or one of '
+								+ validStrings);
 					}
 				}
 			}

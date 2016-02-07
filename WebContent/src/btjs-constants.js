@@ -7,6 +7,19 @@ var btjs = {};
 /**
  * @memberOf btjs
  */
+btjs.BTYPE = {
+	BUTTON : 'button',
+	BADGE : 'badge',
+	DROPDOWN : 'dropdown',
+	DROPDOWN_DIVIDER : 'dropdownDivider',
+	DROPDOWN_HEADER : 'dropdownHeader',
+	DROPDOWN_ITEM : 'dropdownItem',
+	ICON : 'icon',
+	LABEL : 'label',
+};
+/**
+ * @memberOf btjs
+ */
 btjs.SIZE = {
 	LARGE : 'large',
 	SMALL : 'small',

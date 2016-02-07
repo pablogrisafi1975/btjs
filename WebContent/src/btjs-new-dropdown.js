@@ -2,7 +2,7 @@ btjs.newDropdown = function(options) {
 	return btjs.newElement(
 			options,
 			{
-				component : 'dropdown',
+				btype : btjs.BTYPE.DROPDOWN,
 				createCode : function(id, options, automaticClasses) {
 					var innerHtml = btjs.makeInnerHtml(options.text, options.html);
 					var enabled = options.disabled ? 'disabled="disabled"' : '';
@@ -43,11 +43,11 @@ btjs.newDropdown = function(options) {
 						for (var i = 0; i < rawOptions.items.length; i++) {
 							var item = options.items[i];
 							var $item = null;
-							switch (item.type) {
-							case 'dropdown-header':
+							switch (item.btype) {
+							case 'dropdownHeader':
 								$item = btjs.newDropdownHeader(item);
 								break;
-							case 'dropdown-divider':
+							case 'dropdownDivider':
 								$item = btjs.newDropdownDivider(item);
 								break;
 							default:
