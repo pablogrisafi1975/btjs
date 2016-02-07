@@ -6,14 +6,7 @@
 //TODO: btype instead of btype
 //TODO: automatic html: we need a cookedOptions
 
-btjs.makeInnerHtml = function(text, html) {
-	if (btjs.isBlankString(text) && !btjs.isBlankString(html)) {
-		return html;
-	} else if (!btjs.isBlankString(text) && btjs.isBlankString(html)) {
-		return btjs.escapeHtml(text);
-	}
-	return '';
-}
+
 
 btjs.newElement = function(rawOptions, customProcess) {
 	btjs.automaticValidations(customProcess.btype, rawOptions);
@@ -32,28 +25,13 @@ btjs.newElement = function(rawOptions, customProcess) {
 
 	var $newElement = $(newElementCode);
 
-	function parseIconName(iconString) {
-		var slashIndex = iconString.indexOf('/');
-		if (slashIndex == -1) {
-			return iconString;
-		}
-		return iconString.substr(slashIndex + 1);
-	}
-	function parseIconSource(iconString) {
-		var slashIndex = iconString.indexOf('/');
-		if (slashIndex == -1) {
-			return btjs.ICON_SOURCE.GLYPHICON;
-		}
-		return iconString.substr(0, slashIndex);
-	}
 
-	if (!btjs.isBlankString(rawOptions.icon) || btjs.isNonNullObject(rawOptions.icon)) {
-		var iconOptions = typeof rawOptions.icon == 'string' ? {
-			id : id + '-icon',
-			iconSource : parseIconSource(rawOptions.icon),
-			iconName : parseIconName(rawOptions.icon),
-		} : rawOptions.icon; // TODO: manually copy properties and change
-		// ID
+
+	if (btjs.isSignificantStringOrObject(rawOptions.icon)) {
+		var iconOptions = typeof rawOptions.icon == 'string' ? 
+				btjs.makeIconObject(rawOptions.icon) : btjs.deepCopy(rawOptions.icon);
+		
+		iconOptions.id =  id + '-icon';
 
 		$icon = btjs.newIcon(iconOptions);
 		$iconLocation = btjs.toType(customProcess.iconLocationId) === 'function' ? $newElement
@@ -64,12 +42,12 @@ btjs.newElement = function(rawOptions, customProcess) {
 		$iconLocation.prepend($icon);
 	}
 
-	if (!btjs.isBlankString(rawOptions.badge) || btjs.isNonNullObject(rawOptions.badge)) {
+	if (btjs.isSignificantStringOrObject(rawOptions.badge)) {
 		var badgeOptions = typeof rawOptions.badge == 'string' ? {
-			id : id + '-badge',
 			text : rawOptions.badge
-		} : rawOptions.badge; // TODO: manually copy properties and change
-		// ID
+		} : btjs.deepCopy(rawOptions.badge); 
+		
+		badgeOptions.id = id + '-badge';
 
 		$badge = btjs.newBadge(badgeOptions);
 		$badgeLocation = btjs.toType(customProcess.badgeLocationId) === 'function' ? $newElement
@@ -145,6 +123,29 @@ btjs.automaticClassCreation = function(btype, rawOptions) {
 	}
 	return cssClasses.join(' ');
 }
+
+btjs.makeInnerHtml = function(text, html) {
+	if (btjs.isBlankString(text) && !btjs.isBlankString(html)) {
+		return html;
+	} else if (!btjs.isBlankString(text) && btjs.isBlankString(html)) {
+		return btjs.escapeHtml(text);
+	}
+	return '';
+}
+
+btjs.escapeHtml = function(unsafe) {
+	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
+			"&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
+
+btjs.makeIconObject = function(iconString) {
+	var slashIndex = iconString.indexOf('/');
+	return {
+		iconName : slashIndex == -1 ? iconString :  iconString.substr(slashIndex + 1),
+		iconSource : slashIndex == -1 ? btjs.ICON_SOURCE.GLYPHICON :  iconString.substr(0, slashIndex)
+	}
+}
+
 
 // TODO:
 // test: mantener las clases originales

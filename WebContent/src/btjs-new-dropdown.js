@@ -43,6 +43,7 @@ btjs.newDropdown = function(options) {
 						for (var i = 0; i < rawOptions.items.length; i++) {
 							var item = options.items[i];
 							var $item = null;
+							//TODO: something should parse sub components
 							switch (item.btype) {
 							case 'dropdownHeader':
 								$item = btjs.newDropdownHeader(item);

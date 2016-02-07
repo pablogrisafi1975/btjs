@@ -20,8 +20,12 @@ btjs.isBlankString = function(str) {
 btjs.isNonNullObject = function(obj) {
 	return obj !== null && typeof obj === 'object';
 }
-
-btjs.escapeHtml = function(unsafe) {
-	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
-			"&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+btjs.isSignificantStringOrObject = function(obj) {
+	return !btjs.isBlankString(obj) || btjs.isNonNullObject(obj);
 }
+
+btjs.deepCopy = function(obj){
+	return jQuery.extend(true, {}, obj);
+}
+
+
