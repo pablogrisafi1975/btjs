@@ -132,7 +132,21 @@
 	<br />
 	<script src="lib/jquery/jquery-2.2.0.js"></script>
 	<script src="lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
-	<script src="src/btjs.js"></script>
+	<script src="src/btjs-constants.js"></script>
+	<script src="src/btjs-utils.js"></script>
+	<script src="src/btjs-validate.js"></script>
+	<script src="src/btjs-class-maker.js"></script>
+	<script src="src/btjs-id-maker.js"></script>
+	<script src="src/btjs-new-element.js"></script>
+	<script src="src/btjs-new-icon.js"></script>
+	<script src="src/btjs-new-badge.js"></script>
+	<script src="src/btjs-new-label.js"></script>
+	<script src="src/btjs-new-button.js"></script>
+	<script src="src/btjs-new-dropdown-divider.js"></script>
+	<script src="src/btjs-new-dropdown-header.js"></script>
+	<script src="src/btjs-new-dropdown-item.js"></script>
+	<script src="src/btjs-new-dropdown.js"></script>
+<!-- 	<script src="src/btjs.js"></script> -->
 </body>
 <script>
 	//TODO: id inside options?
@@ -316,133 +330,120 @@
 	});
 
 	btjs.newDropdown({
-			id : 'dropdown1',
-			text : 'first DropDown',
-			//size: 'extra-small',
-			blockLevel : false,
-			intent : 'warning',
-			icon : 'search',
-			align : 'right',
-			badge : '44',
-			enabled : true,
-			items : [
-					{
-						type : 'dropdown-header',
-						text : 'Actions'
-					},
-					{
-						type : 'dropdown-item',
-						text : 'Console'
-					},
-					{
-						text : 'Action'
-					},
-					{
-						text : 'Another Action'
-					},
-					{
-						type : 'dropdown-header',
-						text : 'Edit'
-					},
-					{
-						type : 'dropdown-item',
-						text : 'Select all',
-						disabled : true
-					}, {
-						type : 'dropdown-item',
-						text : 'Copy',
-						id : 'copy',
-						icon : 'copy'
-					}, {
-						type : 'dropdown-divider'
-					}, {
-						text : 'Paste',
-						badge : 'has'
-					} ]
-		});
+		id : 'dropdown1',
+		text : 'first DropDown',
+		//size: 'extra-small',
+		blockLevel : false,
+		intent : 'warning',
+		icon : 'search',
+		align : 'right',
+		badge : '44',
+		enabled : true,
+		items : [ {
+			type : 'dropdown-header',
+			text : 'Actions'
+		}, {
+			type : 'dropdown-item',
+			text : 'Console'
+		}, {
+			text : 'Action'
+		}, {
+			text : 'Another Action'
+		}, {
+			type : 'dropdown-header',
+			text : 'Edit'
+		}, {
+			type : 'dropdown-item',
+			text : 'Select all',
+			disabled : true
+		}, {
+			type : 'dropdown-item',
+			text : 'Copy',
+			id : 'copy',
+			icon : 'copy'
+		}, {
+			type : 'dropdown-divider'
+		}, {
+			text : 'Paste',
+			badge : 'has'
+		} ]
+	});
 	btjs.newDropdown({
-			id : 'dropdown2',
-			text : 'dropDown',
-			blockLevel : false,
-			intent : 'info',
-			icon : 'search',
-			align : btjs.ALIGN.LEFT,
+		id : 'dropdown2',
+		text : 'dropDown',
+		blockLevel : false,
+		intent : 'info',
+		icon : 'search',
+		align : btjs.ALIGN.LEFT,
+		badge : '1',
+		tooltip : {
+			title : 'tooltip on dropdown',
+			placement : 'right'
+		},
+		popover : {
+			title : 'dropdown popover title',
+			content : 'dropdown popover content',
+			placement : 'bottom'
+		},
+		enabled : true,
+		dropup : true,
+		items : [ {
+			text : 'Edit',
+			type : 'dropdown-header'
+		}, {
+			type : 'dropdown-item',
+			text : 'Cut',
 			badge : '1',
-			tooltip: {
-				title: 'tooltip on dropdown',
-				placement: 'right'
-			}, 
-			popover : {
-				title : 'dropdown popover title',
-				content : 'dropdown popover content',
-				placement : 'bottom'
-			},				
-			enabled : true,
-			dropup: true,
-			items : [
-					{
-						text : 'Edit',
-						type : 'dropdown-header'
-					},
-					{
-						type : 'dropdown-item',
-						text : 'Cut',
-						badge: '1',
-						icon: 'ionicons/scissors',
-						tooltip: 'You can cut'
-					},
-					{
-						text : 'Copy',
-						badge: '',
-						icon: 'ionicons/ios-copy-outline',
-						tooltip: {
-							title: 'you can copy',
-							placement: 'right'
-						}
-					},
-					{
-						text : 'Paste',
-						badge: '0',
-						icon: 'ionicons/ios-copy-outline',
-						disabled: true,
-						tooltip : {
-							title : 'but you cant paste, because it is disabled',
-							placement : 'left'
-						}
-					},
-					{
-						type : 'dropdown-divider'
-					},
-					{
-						type : 'dropdown-header',
-						text : 'Select',
-						badge: '0',
-						icon: 'fontAwesome/usb',
-						tooltip: {
-							title: 'tooltip on header too!',
-							placement: 'right'
-						}
-					},
-					{
-						type : 'dropdown-item',
-						html : 'Select <i>all</i>',
-					}, {
-						type : 'dropdown-item',
-						html : 'Select <b>none</b>',
-					} ]
-		});
-	btjs.newDropdown({
-			id : 'dropdown3',
-			text : 'dd3',
-			blockLevel : true,
+			icon : 'ionicons/scissors',
+			tooltip : 'You can cut'
+		}, {
+			text : 'Copy',
+			badge : '',
+			icon : 'ionicons/ios-copy-outline',
+			tooltip : {
+				title : 'you can copy',
+				placement : 'right'
+			}
+		}, {
+			text : 'Paste',
+			badge : '0',
+			icon : 'ionicons/ios-copy-outline',
 			disabled : true,
-			popover : {
-				title : 'dropdown popover title',
-				content : 'dropdown popover content',
+			tooltip : {
+				title : 'but you cant paste, because it is disabled',
 				placement : 'left'
-			}	
-		});
-	
+			}
+		}, {
+			type : 'dropdown-divider'
+		}, {
+			type : 'dropdown-header',
+			text : 'Select',
+			badge : '0',
+			icon : 'fontAwesome/usb',
+			tooltip : {
+				title : 'tooltip on header too!',
+				placement : 'right'
+			}
+		}, {
+			type : 'dropdown-item',
+			html : 'Select <i>all</i>',
+		}, {
+			type : 'dropdown-item',
+			html : 'Select <b>none</b>',
+		} ]
+	});
+	btjs.newDropdown({
+		id : 'dropdown3',
+		text : 'dd3',
+		blockLevel : true,
+		disabled : true,
+		popover : {
+			title : 'dropdown popover title',
+			content : 'dropdown popover content',
+			placement : 'left'
+		}
+	});
+
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
 </script>
