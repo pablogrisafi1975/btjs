@@ -2,8 +2,7 @@
  * @type btjs
  * @author Pablo
  */
-var btjs =  {};
-//TODO: placement como constantes
+var btjs = {};
 
 /**
  * @memberOf btjs
@@ -49,4 +48,13 @@ btjs.ICON_SOURCE = {
 btjs.ALIGN = {
 	LEFT : 'left',
 	RIGHT : 'right'
+};
+/**
+ * @memberOf btjs
+ */
+btjs.PLACEMENT = {
+	LEFT : 'left',
+	RIGHT : 'right',
+	TOP : 'top',
+	BOTTOM : 'bottom'
 };

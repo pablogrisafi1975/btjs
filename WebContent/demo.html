@@ -175,14 +175,14 @@
 		context : btjs.CONTEXT.PRIMARY,
 		tooltip : {
 			title : 'slow tooltip',
-			placement : 'left',
+			placement : btjs.PLACEMENT.LEFT,
 			animation : true,
 			delay : 500,
 		},
 		popover : {
 			title : 'label popover title',
 			content : 'label popover content',
-			placement : 'bottom'
+			placement : btjs.PLACEMENT.BOTTOM
 		}
 	});
 	btjs.newLabel({
@@ -222,14 +222,14 @@
 		html : 'badge with <i>html</i>',
 		tooltip : {
 			title : 'slow tooltip',
-			placement : 'left',
+			placement : btjs.PLACEMENT.LEFT,
 			animation : true,
 			delay : 500,
 		},
 		popover : {
 			title : 'badge popover title',
 			content : 'badge popover content',
-			placement : 'bottom'
+			placement : btjs.PLACEMENT.BOTTOM
 		}
 	});
 	btjs.newBadge({
@@ -253,14 +253,14 @@
 		iconName : 'heart',
 		tooltip : {
 			title : 'slow tooltip',
-			placement : 'left',
+			placement : btjs.PLACEMENT.LEFT,
 			animation : true,
 			delay : 500,
 		},
 		popover : {
 			title : 'badge popover title',
 			content : 'badge popover content',
-			placement : 'bottom'
+			placement : btjs.PLACEMENT.BOTTOM
 		}
 	});
 	btjs.newIcon({
@@ -303,14 +303,14 @@
 		active : false,
 		tooltip : {
 			title : 'slow tooltip',
-			placement : 'left',
+			placement : btjs.PLACEMENT.LEFT,
 			animation : true,
 			delay : 500,
 		},
 		popover : {
 			title : 'button popover title',
 			content : 'button popover content',
-			placement : 'bottom'
+			placement : btjs.PLACEMENT.BOTTOM
 		}
 	});
 	btjs.newButton({
@@ -372,18 +372,18 @@
 		id : 'dropdown2',
 		text : 'dropDown',
 		blockLevel : false,
-		context : 'info',
+		context : btjs.CONTEXT.SUCCESS,
 		icon : 'search',
 		align : btjs.ALIGN.LEFT,
 		badge : '1',
 		tooltip : {
 			title : 'tooltip on dropdown',
-			placement : 'right'
+			placement : btjs.PLACEMENT.RIGHT
 		},
 		popover : {
 			title : 'dropdown popover title',
 			content : 'dropdown popover content',
-			placement : 'bottom'
+			placement : btjs.PLACEMENT.BOTTOM
 		},
 		enabled : true,
 		dropup : true,
@@ -402,7 +402,7 @@
 			icon : 'ionicons/ios-copy-outline',
 			tooltip : {
 				title : 'you can copy',
-				placement : 'right'
+				placement : btjs.PLACEMENT.RIGHT
 			}
 		}, {
 			text : 'Paste',
@@ -411,7 +411,7 @@
 			disabled : true,
 			tooltip : {
 				title : 'but you cant paste, because it is disabled',
-				placement : 'left'
+				placement : btjs.PLACEMENT.LEFT
 			}
 		}, {
 			type : 'dropdown-divider'
@@ -422,7 +422,7 @@
 			icon : 'fontAwesome/usb',
 			tooltip : {
 				title : 'tooltip on header too!',
-				placement : 'right'
+				placement : btjs.PLACEMENT.RIGHT
 			}
 		}, {
 			type : 'dropdown-item',
@@ -440,7 +440,7 @@
 		popover : {
 			title : 'dropdown popover title',
 			content : 'dropdown popover content',
-			placement : 'left'
+			placement : btjs.PLACEMENT.RIGHT
 		}
 	});
 
