@@ -65,11 +65,8 @@ btjs.automaticValidations = function(btype, rawOptions) {
 
 btjs.subelementCreation = function(rawOptions, iconLocationId, badgeLocationId, id, $newElement){
 	btjs.subelementMaker.makeIcon(rawOptions.icon, iconLocationId, id, $newElement);
-	
 	btjs.subelementMaker.makeBadge(rawOptions.badge, badgeLocationId, id, $newElement);
-
 	btjs.subelementMaker.makeTooltip(rawOptions.tooltip, $newElement);
-
 	btjs.subelementMaker.makePopover(rawOptions.popover, id, $newElement);	
 }
 
@@ -102,14 +99,6 @@ btjs.makeInnerHtml = function(text, html) {
 btjs.escapeHtml = function(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
 			"&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-}
-
-btjs.makeIconObject = function(iconString) {
-	var slashIndex = iconString.indexOf('/');
-	return {
-		iconName : slashIndex == -1 ? iconString :  iconString.substr(slashIndex + 1),
-		iconSource : slashIndex == -1 ? btjs.ICON_SOURCE.GLYPHICON :  iconString.substr(0, slashIndex)
-	}
 }
 
 
