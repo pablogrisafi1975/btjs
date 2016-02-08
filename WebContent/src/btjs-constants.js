@@ -9,6 +9,8 @@ var btjs = {};
  */
 btjs.BTYPE = {
 	BUTTON : 'button',
+	BUTTON_GROUP : 'buttonGroup',
+	BUTTON_TOOLBAR : 'buttonToolbar',
 	BADGE : 'badge',
 	DROPDOWN : 'dropdown',
 	DROPDOWN_DIVIDER : 'dropdownDivider',

@@ -155,6 +155,44 @@ btjs.NEED_LEVEL = {
 		listeners : 'forbidden',
 		visibility : 'forbidden',
 		items : 'forbidden'
+	},
+	buttonGroup : {
+		id : 'optional',
+		cssClass : 'optional',
+		cssStyle : 'optional',
+		size : 'optional',
+		iconSource : 'forbidden',
+		iconName : 'forbidden',
+		icon : 'forbidden',
+		badge : 'forbidden',
+		blockLevel : 'optional',
+		tooltip : 'optional',
+		popover : 'optional',
+		text : 'forbidden',
+		html : 'forbidden',
+		context : 'forbidden',
+		listeners : 'optional',
+		visibility : 'optional',
+		items : 'optional'
+	},
+	buttonToolbar : {
+		id : 'optional',
+		cssClass : 'optional',
+		cssStyle : 'optional',
+		size : 'optional',
+		iconSource : 'forbidden',
+		iconName : 'forbidden',
+		icon : 'forbidden',
+		badge : 'forbidden',
+		blockLevel : 'optional',
+		tooltip : 'optional',
+		popover : 'optional',
+		text : 'forbidden',
+		html : 'forbidden',
+		context : 'forbidden',
+		listeners : 'optional',
+		visibility : 'optional',
+		items : 'optional'
 	}
 
 };
@@ -182,7 +220,7 @@ btjs.VALID_TYPES = {
 btjs.stringSet = function(btype, field) {
 	switch (field) {
 	case 'size':
-		if (btype === 'button' || btype === 'label') {
+		if (btype === 'button' || btype === 'buttonGroup' || btype === 'buttonToolbar' || btype === 'label') {
 			return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL, btjs.SIZE.EXTRA_SMALL ];
 		} else {
 			return [ btjs.SIZE.LARGE, btjs.SIZE.SMALL ];

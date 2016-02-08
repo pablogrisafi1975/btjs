@@ -123,6 +123,30 @@
 			<div id='dropdown5'></div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-md-2">ButtonGroup</div>
+		<div class="col-md-2">
+			<div id='buttonGroup1'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='buttonGroup2'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='buttonGroup3'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='buttonGroup4'></div>
+		</div>
+		<div class="col-md-2">
+			<div id='buttonGroup5'></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">ButtonToolbar</div>
+		<div class="col-md-10">
+			<div id='buttonToolbar1'></div>
+		</div>
+	</div>
 	<br />
 	<div id="div1"></div>
 	<br />
@@ -147,7 +171,9 @@
 	<script src="src/btjs-new-dropdown-header.js"></script>
 	<script src="src/btjs-new-dropdown-item.js"></script>
 	<script src="src/btjs-new-dropdown.js"></script>
-<!-- 	<script src="src/btjs.js"></script> -->
+	<script src="src/btjs-new-button-group.js"></script>
+	<script src="src/btjs-new-button-toolbar.js"></script>
+	<!-- 	<script src="src/btjs.js"></script> -->
 </body>
 <script>
 	//TODO: id inside options?
@@ -159,17 +185,18 @@
 		si no había se guarda en memoria
 	
 	 */
-	btjs.newLabel({
-		id : 'label1',
-		text : 'Basic info label <>',
-		context : btjs.CONTEXT.INFO,
-		tooltip : 'text tooltip on label with "double quotes" and \'single quotes\'',
-		listeners : {
-			click : function() {
-				alert(' click on label');
-			}
-		}
-	});
+	btjs
+			.newLabel({
+				id : 'label1',
+				text : 'Basic info label <>',
+				context : btjs.CONTEXT.INFO,
+				tooltip : 'text tooltip on label with "double quotes" and \'single quotes\'',
+				listeners : {
+					click : function() {
+						alert(' click on label');
+					}
+				}
+			});
 	btjs.newLabel({
 		id : 'label2',
 		html : 'label with <i>html</i>',
@@ -191,7 +218,7 @@
 		text : 'with icon & badge',
 		context : btjs.CONTEXT.WARNING,
 		icon : 'music',
-		popover: 'title/using slash!',
+		popover : 'title/using slash!',
 		badge : '55'
 	});
 	btjs.newLabel({
@@ -429,6 +456,81 @@
 		text : 'dd3',
 		blockLevel : true,
 		disabled : true
+	});
+
+	btjs.newButtonGroup({
+		id : 'buttonGroup1',
+		items : [ {
+			text : 'left'
+		}, {
+			text : 'middle'
+		}, {
+			text : 'right'
+		} ]
+	});
+	btjs.newButtonGroup({
+		id : 'buttonGroup2',
+		size : btjs.SIZE.SMALL,
+		items : [ {
+			text : 'left',
+			context : btjs.CONTEXT.PRIMARY
+		}, {
+			text : 'middle',
+			context : btjs.CONTEXT.DANGER
+		}, {
+			text : 'right',
+			context : btjs.CONTEXT.INFO
+		} ]
+	});
+	btjs.newButtonGroup({
+		id : 'buttonGroup3',
+		size : btjs.SIZE.EXTRA_SMALL,
+		vertical : true,
+		items : [ {
+			text : 'top',
+			context : btjs.CONTEXT.PRIMARY
+		}, {
+			text : 'bottom',
+			context : btjs.CONTEXT.DANGER
+		} ]
+	});
+	btjs.newButtonGroup({
+		id : 'buttonGroup4',
+		tooltip : {
+			title : 'group tooltip',
+			placement : btjs.PLACEMENT.BOTTOM
+		},
+		justified : true,
+		items : [ {
+			text : 'left',
+			tooltip : 'left tooltip',
+			context : btjs.CONTEXT.PRIMARY
+		}, {
+			text : 'right',
+			tooltip : 'right tooltip',
+			context : btjs.CONTEXT.PRIMARY
+		} ]
+	});
+	btjs.newButtonToolbar({
+		id : 'buttonToolbar1',
+		size : btjs.SIZE.LARGE,
+		items : [ {
+			items : [ {
+				text : '1',
+			}, {
+				text : '2',
+			}, {
+				text : '3',
+			} ]
+		}, {
+			items : [ {
+				text : '4',
+			}, {
+				text : '5',
+			}, {
+				text : '6',
+			} ]
+		} ]
 	});
 
 	$('[data-toggle="tooltip"]').tooltip();

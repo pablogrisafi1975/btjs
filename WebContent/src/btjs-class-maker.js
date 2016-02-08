@@ -3,6 +3,8 @@ btjs.classMaker = {
 		switch (btype) {
 		case 'button':
 			return 'btn';
+		case 'buttonGroup':
+			return 'btn-group';
 		case 'dropdown':
 			return 'btn';
 		case 'label':
