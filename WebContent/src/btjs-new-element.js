@@ -25,54 +25,10 @@ btjs.newElement = function(rawOptions, customProcess) {
 
 	var $newElement = $(newElementCode);
 
-
-
-	if (btjs.isSignificantStringOrObject(rawOptions.icon)) {
-		var iconOptions = typeof rawOptions.icon == 'string' ? 
-				btjs.makeIconObject(rawOptions.icon) : btjs.deepCopy(rawOptions.icon);
-		
-		iconOptions.id =  id + '-icon';
-
-		$icon = btjs.newIcon(iconOptions);
-		$iconLocation = btjs.toType(customProcess.iconLocationId) === 'function' ? $newElement
-				.find('#' + customProcess.iconLocationId(id))
-				: $newElement;
-
-		$iconLocation.prepend('&nbsp;');
-		$iconLocation.prepend($icon);
-	}
-
-	if (btjs.isSignificantStringOrObject(rawOptions.badge)) {
-		var badgeOptions = typeof rawOptions.badge == 'string' ? {
-			text : rawOptions.badge
-		} : btjs.deepCopy(rawOptions.badge); 
-		
-		badgeOptions.id = id + '-badge';
-
-		$badge = btjs.newBadge(badgeOptions);
-		$badgeLocation = btjs.toType(customProcess.badgeLocationId) === 'function' ? $newElement
-				.find('#' + customProcess.badgeLocationId(id))
-				: $newElement;
-
-		$badgeLocation.append('&nbsp;');
-		$badgeLocation.append($badge);
-	}
+	btjs.subelementCreation(rawOptions, customProcess.iconLocationId, customProcess.badgeLocationId, id, $newElement);
 
 	if (typeof customProcess.addChildren === 'function') {
 		customProcess.addChildren($newElement, id, rawOptions);
-	}
-
-	if (typeof rawOptions.tooltip === 'string') {
-		$newElement.tooltip({
-			title : rawOptions.tooltip
-		});
-	} else if (typeof rawOptions.tooltip === 'object'
-			&& rawOptions.tooltip !== null) {
-		$newElement.tooltip(rawOptions.tooltip);
-	}
-
-	if (typeof rawOptions.popover === 'object' && rawOptions.popover !== null) {
-		$newElement.popover(rawOptions.popover);
 	}
 
 	if (typeof rawOptions.listeners === 'object'
@@ -105,6 +61,16 @@ btjs.automaticValidations = function(btype, rawOptions) {
 	btjs.validate.types(btype, rawOptions);
 	btjs.validate.stringSets(btype, rawOptions);
 	btjs.validate.eitherTextOrHtml(btype, rawOptions);
+}
+
+btjs.subelementCreation = function(rawOptions, iconLocationId, badgeLocationId, id, $newElement){
+	btjs.subelementMaker.makeIcon(rawOptions.icon, iconLocationId, id, $newElement);
+	
+	btjs.subelementMaker.makeBadge(rawOptions.badge, badgeLocationId, id, $newElement);
+
+	btjs.subelementMaker.makeTooltip(rawOptions.tooltip, $newElement);
+
+	btjs.subelementMaker.makePopover(rawOptions.popover, id, $newElement);	
 }
 
 btjs.automaticClassCreation = function(btype, rawOptions) {
